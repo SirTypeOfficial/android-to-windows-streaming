@@ -19,7 +19,6 @@ windows-app/streaming/__pycache__/receiver.cpython-313.pyc
 windows-app/streaming/__pycache__/connection.cpython-313.pyc
 windows-app/streaming/__pycache__/decoder.cpython-313.pyc
 windows-app/protocol/__pycache__/protocol.cpython-313.pyc
-*.pyc
 
 # C++
 virtual-camera/build/
