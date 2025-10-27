@@ -33,17 +33,17 @@ class VideoDecoder:
 class AudioDecoder:
     def __init__(self):
         self.codec = av.CodecContext.create('aac', 'r')
-        self.codec.sample_rate = 44100
-        self.codec.channels = 2
         
         self.audio = pyaudio.PyAudio()
         self.stream: Optional[pyaudio.Stream] = None
+        self.sample_rate = 44100
+        self.channels = 2
         
         try:
             self.stream = self.audio.open(
                 format=pyaudio.paInt16,
-                channels=2,
-                rate=44100,
+                channels=self.channels,
+                rate=self.sample_rate,
                 output=True,
                 frames_per_buffer=1024
             )

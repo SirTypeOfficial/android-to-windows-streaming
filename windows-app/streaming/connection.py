@@ -29,6 +29,26 @@ class ConnectionManager:
     
     def connect_usb(self, port: int = 8889) -> bool:
         try:
+            devices_result = subprocess.run(
+                ['adb', 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if devices_result.returncode != 0:
+                logger.error(f"ADB devices command failed: {devices_result.stderr}")
+                return False
+            
+            devices_output = devices_result.stdout.strip().split('\n')
+            connected_devices = [line for line in devices_output[1:] if line.strip() and '\tdevice' in line]
+            
+            if not connected_devices:
+                logger.error("No Android devices connected via USB")
+                return False
+            
+            logger.info(f"Found {len(connected_devices)} device(s) connected")
+            
             result = subprocess.run(
                 ['adb', 'reverse', f'tcp:{port}', f'tcp:{port}'],
                 capture_output=True,
@@ -40,8 +60,12 @@ class ConnectionManager:
                 logger.error(f"ADB reverse failed: {result.stderr}")
                 return False
             
+            logger.info(f"ADB reverse tcp:{port} successful")
+            
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.settimeout(10)
             self.socket.connect(('localhost', port))
+            self.socket.settimeout(None)
             self.is_connected = True
             logger.info(f"Connected via USB on port {port}")
             if self.on_connected:
@@ -49,6 +73,9 @@ class ConnectionManager:
             return True
         except FileNotFoundError:
             logger.error("ADB not found. Make sure Android SDK platform-tools is installed and in PATH")
+            return False
+        except socket.timeout:
+            logger.error("Connection timeout. Make sure the Android app is running and streaming is started")
             return False
         except Exception as e:
             logger.error(f"Failed to connect via USB: {e}")

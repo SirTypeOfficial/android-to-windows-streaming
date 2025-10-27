@@ -22,6 +22,7 @@ import com.streamapp.control.ControlHandler
 import android.widget.TextView
 import androidx.camera.view.PreviewView
 import kotlin.random.Random
+import java.net.NetworkInterface
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var chipUsb: Chip
     private lateinit var tvStatus: TextView
     private lateinit var tvPairingCode: TextView
+    private lateinit var tvIpAddress: TextView
     
     private var cameraManager: CameraManager? = null
     private var controlHandler: ControlHandler? = null
@@ -85,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         chipUsb = findViewById(R.id.chipUsb)
         tvStatus = findViewById(R.id.tvStatus)
         tvPairingCode = findViewById(R.id.tvPairingCode)
+        tvIpAddress = findViewById(R.id.tvIpAddress)
         
         btnStartStop.setOnClickListener {
             toggleStreaming()
@@ -160,24 +163,44 @@ class MainActivity : AppCompatActivity() {
             service.getVideoEncoder()?.encodeFrame(imageProxy)
         }
         
-        val streamer = if (useWifi) service.networkStreamer else service.usbStreamer
-        
-        streamer?.onClientConnected = {
-            runOnUiThread {
-                tvStatus.text = getString(R.string.connected)
-                tvPairingCode.visibility = View.GONE
+        if (useWifi) {
+            service.networkStreamer?.onClientConnected = {
+                runOnUiThread {
+                    tvStatus.text = getString(R.string.connected)
+                    tvPairingCode.visibility = View.GONE
+                    tvIpAddress.visibility = View.GONE
+                }
             }
-        }
-        
-        streamer?.onClientDisconnected = {
-            runOnUiThread {
-                tvStatus.text = getString(R.string.waiting_for_connection)
-                generatePairingCode()
+            
+            service.networkStreamer?.onClientDisconnected = {
+                runOnUiThread {
+                    tvStatus.text = getString(R.string.waiting_for_connection)
+                    generatePairingCode()
+                }
             }
-        }
-        
-        streamer?.onControlCommand = { command ->
-            controlHandler?.handleCommand(command)
+            
+            service.networkStreamer?.onControlCommand = { command ->
+                controlHandler?.handleCommand(command)
+            }
+        } else {
+            service.usbStreamer?.onClientConnected = {
+                runOnUiThread {
+                    tvStatus.text = getString(R.string.connected)
+                    tvPairingCode.visibility = View.GONE
+                    tvIpAddress.visibility = View.GONE
+                }
+            }
+            
+            service.usbStreamer?.onClientDisconnected = {
+                runOnUiThread {
+                    tvStatus.text = getString(R.string.waiting_for_connection)
+                    generatePairingCode()
+                }
+            }
+            
+            service.usbStreamer?.onControlCommand = { command ->
+                controlHandler?.handleCommand(command)
+            }
         }
         
         isStreaming = true
@@ -196,6 +219,7 @@ class MainActivity : AppCompatActivity() {
         btnStartStop.text = getString(R.string.start_streaming)
         tvStatus.text = getString(R.string.disconnected)
         tvPairingCode.visibility = View.GONE
+        tvIpAddress.visibility = View.GONE
         
         Log.d(TAG, "Streaming stopped")
     }
@@ -204,6 +228,33 @@ class MainActivity : AppCompatActivity() {
         pairingCode = String.format("%06d", Random.nextInt(0, 1000000))
         tvPairingCode.text = getString(R.string.pairing_code, pairingCode)
         tvPairingCode.visibility = View.VISIBLE
+        
+        if (useWifi) {
+            val ipAddress = getLocalIpAddress()
+            if (ipAddress != null) {
+                tvIpAddress.text = "آدرس IP: $ipAddress"
+                tvIpAddress.visibility = View.VISIBLE
+            }
+        }
+    }
+    
+    private fun getLocalIpAddress(): String? {
+        try {
+            val interfaces = NetworkInterface.getNetworkInterfaces()
+            while (interfaces.hasMoreElements()) {
+                val networkInterface = interfaces.nextElement()
+                val addresses = networkInterface.inetAddresses
+                while (addresses.hasMoreElements()) {
+                    val address = addresses.nextElement()
+                    if (!address.isLoopbackAddress && address.hostAddress.indexOf(':') < 0) {
+                        return address.hostAddress
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting IP address", e)
+        }
+        return null
     }
     
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

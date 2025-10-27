@@ -217,7 +217,14 @@ class MainWindow(QMainWindow):
         if self.connection_manager.connect_usb():
             self.stream_receiver.start()
         else:
-            QMessageBox.critical(self, "خطا", "اتصال USB ناموفق بود. مطمئن شوید که ADB نصب است و دستگاه متصل است")
+            error_msg = "اتصال USB ناموفق بود.\n\n"
+            error_msg += "لطفاً موارد زیر را بررسی کنید:\n"
+            error_msg += "1. ADB نصب و در PATH قرار دارد\n"
+            error_msg += "2. دستگاه اندروید از طریق USB متصل است\n"
+            error_msg += "3. USB Debugging فعال است\n"
+            error_msg += "4. برنامه اندروید در حال اجرا و استریمینگ شروع شده است\n\n"
+            error_msg += "برای جزئیات بیشتر لاگ‌ها را بررسی کنید."
+            QMessageBox.critical(self, "خطا", error_msg)
     
     def disconnect(self):
         self.stream_receiver.stop()
