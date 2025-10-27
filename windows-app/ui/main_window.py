@@ -12,7 +12,6 @@ from streaming.decoder import VideoDecoder, AudioDecoder
 from control.commands import ControlCommands
 from virtual_camera.interface import VirtualCameraInterface
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class MainWindow(QMainWindow):
@@ -248,6 +247,7 @@ class MainWindow(QMainWindow):
         logger.info("Disconnected from Android device")
     
     def on_frame_decoded(self, frame: np.ndarray):
+        logger.debug(f"Frame decoded callback called: shape={frame.shape}")
         self.current_frame = frame
         self.frame_received.emit(frame)
         
@@ -255,19 +255,23 @@ class MainWindow(QMainWindow):
             self.virtual_camera.send_frame(frame)
     
     def update_frame(self, frame: np.ndarray):
-        height, width, channel = frame.shape
-        bytes_per_line = 3 * width
-        
-        q_image = QImage(frame.data, width, height, bytes_per_line, QImage.Format.Format_BGR888)
-        pixmap = QPixmap.fromImage(q_image)
-        
-        scaled_pixmap = pixmap.scaled(
-            self.video_label.size(),
-            Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation
-        )
-        
-        self.video_label.setPixmap(scaled_pixmap)
+        try:
+            height, width, channel = frame.shape
+            logger.debug(f"Updating UI with frame: {width}x{height}")
+            bytes_per_line = 3 * width
+            
+            q_image = QImage(frame.data, width, height, bytes_per_line, QImage.Format.Format_BGR888)
+            pixmap = QPixmap.fromImage(q_image)
+            
+            scaled_pixmap = pixmap.scaled(
+                self.video_label.size(),
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+            
+            self.video_label.setPixmap(scaled_pixmap)
+        except Exception as e:
+            logger.error(f"Error updating frame display: {e}", exc_info=True)
     
     def change_resolution(self):
         index = self.resolution_combo.currentIndex()

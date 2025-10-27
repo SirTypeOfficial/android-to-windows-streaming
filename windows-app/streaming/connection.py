@@ -50,17 +50,17 @@ class ConnectionManager:
             logger.info(f"Found {len(connected_devices)} device(s) connected")
             
             result = subprocess.run(
-                ['adb', 'reverse', f'tcp:{port}', f'tcp:{port}'],
+                ['adb', 'forward', f'tcp:{port}', f'tcp:{port}'],
                 capture_output=True,
                 text=True,
                 timeout=5
             )
             
             if result.returncode != 0:
-                logger.error(f"ADB reverse failed: {result.stderr}")
+                logger.error(f"ADB forward failed: {result.stderr}")
                 return False
             
-            logger.info(f"ADB reverse tcp:{port} successful")
+            logger.info(f"ADB forward tcp:{port} successful")
             
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.settimeout(10)
@@ -88,6 +88,11 @@ class ConnectionManager:
             except:
                 pass
             self.socket = None
+        
+        try:
+            subprocess.run(['adb', 'forward', '--remove-all'], capture_output=True, timeout=2)
+        except:
+            pass
         
         self.is_connected = False
         logger.info("Disconnected")

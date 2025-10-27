@@ -28,7 +28,7 @@ class PacketHeader:
     
     def to_bytes(self) -> bytes:
         return struct.pack(
-            '>IBIBQI',
+            '>IBIQI',
             self.magic,
             self.packet_type,
             self.payload_size,
@@ -38,7 +38,7 @@ class PacketHeader:
     
     @staticmethod
     def from_bytes(data: bytes) -> 'PacketHeader':
-        magic, packet_type, payload_size, timestamp, seq_num = struct.unpack('>IBIBQI', data)
+        magic, packet_type, payload_size, timestamp, seq_num = struct.unpack('>IBIQI', data)
         return PacketHeader(
             magic=magic,
             packet_type=PacketType(packet_type),

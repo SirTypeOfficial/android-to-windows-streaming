@@ -31,34 +31,43 @@ class StreamReceiver:
         logger.info("Stream receiver stopped")
     
     def _receive_loop(self):
+        logger.info("Receive loop started")
         while self.is_receiving:
             try:
                 header_data = self.connection_manager.receive_data(PacketHeader.HEADER_SIZE)
                 if not header_data:
+                    logger.warning("No header data received, breaking loop")
                     break
                 
                 header = PacketHeader.from_bytes(header_data)
+                logger.debug(f"Received packet: type={header.packet_type}, size={header.payload_size}")
                 
                 payload_data = self.connection_manager.receive_data(header.payload_size)
                 if not payload_data:
+                    logger.warning("No payload data received, breaking loop")
                     break
                 
                 self._handle_packet(header, payload_data)
                 
             except Exception as e:
-                logger.error(f"Error in receive loop: {e}")
+                logger.error(f"Error in receive loop: {e}", exc_info=True)
                 break
         
         self.is_receiving = False
+        logger.info("Receive loop stopped")
     
     def _handle_packet(self, header: PacketHeader, payload: bytes):
         try:
             if header.packet_type == PacketType.VIDEO_FRAME:
+                logger.debug(f"Handling video frame: size={len(payload)}")
                 if self.on_video_frame:
                     is_keyframe = len(payload) > 4 and payload[4] == 0x67
                     self.on_video_frame(payload, header.timestamp, is_keyframe)
+                else:
+                    logger.warning("on_video_frame callback is not set")
             
             elif header.packet_type == PacketType.AUDIO_FRAME:
+                logger.debug(f"Handling audio frame: size={len(payload)}")
                 if self.on_audio_frame:
                     self.on_audio_frame(payload, header.timestamp)
             
@@ -68,8 +77,8 @@ class StreamReceiver:
                     self.on_control_response(response)
             
             elif header.packet_type == PacketType.KEEPALIVE:
-                pass
+                logger.debug("Received keepalive packet")
             
         except Exception as e:
-            logger.error(f"Error handling packet: {e}")
+            logger.error(f"Error handling packet: {e}", exc_info=True)
 

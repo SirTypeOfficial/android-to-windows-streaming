@@ -2,6 +2,7 @@ import logging
 import mmap
 import numpy as np
 from typing import Optional
+import sys
 
 logger = logging.getLogger(__name__)
 
@@ -14,12 +15,15 @@ class VirtualCameraInterface:
         
     def start(self) -> bool:
         try:
-            self.shared_memory = mmap.mmap(-1, self.frame_size, self.shared_memory_name)
+            if sys.platform == 'win32':
+                self.shared_memory = mmap.mmap(-1, self.frame_size, self.shared_memory_name, access=mmap.ACCESS_WRITE)
+            else:
+                self.shared_memory = mmap.mmap(-1, self.frame_size, self.shared_memory_name)
             self.is_running = True
             logger.info("Virtual camera interface started")
             return True
         except Exception as e:
-            logger.error(f"Failed to start virtual camera interface: {e}")
+            logger.error(f"Failed to start virtual camera interface: {e}", exc_info=True)
             return False
     
     def stop(self):

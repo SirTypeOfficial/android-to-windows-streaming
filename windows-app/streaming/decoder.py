@@ -10,19 +10,25 @@ class VideoDecoder:
     def __init__(self):
         self.codec = av.CodecContext.create('h264', 'r')
         self.on_frame_decoded: Optional[Callable[[np.ndarray], None]] = None
+        self.frame_count = 0
         logger.info("Video decoder initialized")
     
     def decode(self, data: bytes, timestamp: int, is_keyframe: bool):
         try:
+            logger.debug(f"Decoding frame: size={len(data)}, keyframe={is_keyframe}")
             packet = av.Packet(data)
             frames = self.codec.decode(packet)
             
             for frame in frames:
                 img = frame.to_ndarray(format='bgr24')
+                self.frame_count += 1
+                logger.debug(f"Frame decoded successfully: {frame.width}x{frame.height}, total frames={self.frame_count}")
                 if self.on_frame_decoded:
                     self.on_frame_decoded(img)
+                else:
+                    logger.warning("on_frame_decoded callback is not set")
         except Exception as e:
-            logger.error(f"Error decoding video frame: {e}")
+            logger.error(f"Error decoding video frame: {e}", exc_info=True)
     
     def close(self):
         try:
