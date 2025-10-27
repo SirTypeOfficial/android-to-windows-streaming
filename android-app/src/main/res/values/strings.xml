@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android Stream</string>
+    <string name="start_streaming">شروع استریم</string>
+    <string name="stop_streaming">توقف استریم</string>
+    <string name="switch_camera">تغییر دوربین</string>
+    <string name="toggle_flash">فلش</string>
+    <string name="connection_status">وضعیت اتصال</string>
+    <string name="disconnected">قطع شده</string>
+    <string name="connected">متصل</string>
+    <string name="waiting_for_connection">در انتظار اتصال...</string>
+    <string name="streaming">در حال استریم</string>
+    <string name="pairing_code">کد اتصال: %s</string>
+    <string name="wifi_mode">WiFi</string>
+    <string name="usb_mode">USB</string>
+    <string name="resolution">رزولوشن</string>
+    <string name="fps">FPS</string>
+</resources>
+

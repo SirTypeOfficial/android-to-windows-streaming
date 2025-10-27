@@ -1,0 +1,38 @@
+# Android
+android-app/.gradle/
+android-app/build/
+android-app/local.properties
+android-app/.idea/
+*.iml
+*.apk
+*.aab
+
+# Python
+windows-app/__pycache__/
+windows-app/*.pyc
+windows-app/.venv/
+windows-app/venv/
+windows-app/.env
+
+# C++
+virtual-camera/build/
+virtual-camera/.vs/
+virtual-camera/out/
+*.obj
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.ax
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+

@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "description": "Protocol specification for Android to Windows streaming",
+  
+  "packet_structure": {
+    "header": {
+      "magic": "0x4157534D",
+      "packet_type": "uint8",
+      "payload_size": "uint32",
+      "timestamp": "uint64",
+      "sequence_number": "uint32"
+    },
+    "payload": "variable_bytes"
+  },
+  
+  "packet_types": {
+    "HANDSHAKE_REQUEST": 0x01,
+    "HANDSHAKE_RESPONSE": 0x02,
+    "VIDEO_FRAME": 0x10,
+    "AUDIO_FRAME": 0x11,
+    "CONTROL_COMMAND": 0x20,
+    "CONTROL_RESPONSE": 0x21,
+    "KEEPALIVE": 0x30,
+    "ERROR": 0xFF
+  },
+  
+  "control_commands": {
+    "SET_RESOLUTION": {
+      "command": "set_resolution",
+      "parameters": {
+        "width": "int",
+        "height": "int"
+      }
+    },
+    "SET_FPS": {
+      "command": "set_fps",
+      "parameters": {
+        "fps": "int"
+      }
+    },
+    "SWITCH_CAMERA": {
+      "command": "switch_camera",
+      "parameters": {
+        "camera": "front|back"
+      }
+    },
+    "SET_FOCUS": {
+      "command": "set_focus",
+      "parameters": {
+        "mode": "auto|manual",
+        "distance": "float"
+      }
+    },
+    "SET_FLASH": {
+      "command": "set_flash",
+      "parameters": {
+        "enabled": "boolean"
+      }
+    },
+    "SET_BRIGHTNESS": {
+      "command": "set_brightness",
+      "parameters": {
+        "value": "float"
+      }
+    },
+    "SET_EXPOSURE": {
+      "command": "set_exposure",
+      "parameters": {
+        "value": "float"
+      }
+    }
+  },
+  
+  "video_codec": {
+    "codec": "H.264",
+    "profile": "baseline",
+    "level": "3.1",
+    "format": "NAL units"
+  },
+  
+  "audio_codec": {
+    "codec": "AAC",
+    "profile": "LC",
+    "sample_rate": 44100,
+    "channels": 2
+  },
+  
+  "handshake": {
+    "pairing_code_length": 6,
+    "timeout_ms": 10000
+  }
+}
+

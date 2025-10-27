@@ -1,0 +1,181 @@
+ساختار پروژه Android to Windows Streaming
+==========================================
+
+New folder/
+│
+├── android-app/                          # اپلیکیشن اندروید
+│   ├── src/main/
+│   │   ├── java/com/streamapp/
+│   │   │   ├── MainActivity.kt           # Activity اصلی
+│   │   │   ├── StreamingService.kt       # سرویس استریم در background
+│   │   │   ├── camera/
+│   │   │   │   └── CameraManager.kt      # مدیریت دوربین
+│   │   │   ├── encoder/
+│   │   │   │   ├── VideoEncoder.kt       # انکودر ویدیو H.264
+│   │   │   │   └── AudioEncoder.kt       # انکودر صدا AAC
+│   │   │   ├── network/
+│   │   │   │   ├── NetworkStreamer.kt    # استریم از طریق WiFi
+│   │   │   │   └── USBStreamer.kt        # استریم از طریق USB
+│   │   │   ├── control/
+│   │   │   │   └── ControlHandler.kt     # مدیریت دستورات کنترلی
+│   │   │   └── protocol/
+│   │   │       └── Protocol.kt           # پروتکل ارتباطی
+│   │   ├── res/
+│   │   │   ├── layout/
+│   │   │   │   └── activity_main.xml     # UI اصلی
+│   │   │   └── values/
+│   │   │       ├── strings.xml
+│   │   │       └── themes.xml
+│   │   └── AndroidManifest.xml
+│   ├── build.gradle.kts
+│   ├── settings.gradle.kts
+│   └── gradle.properties
+│
+├── windows-app/                          # اپلیکیشن ویندوز
+│   ├── protocol/
+│   │   ├── __init__.py
+│   │   └── protocol.py                   # پروتکل ارتباطی Python
+│   ├── streaming/
+│   │   ├── __init__.py
+│   │   ├── connection.py                 # مدیریت اتصال WiFi/USB
+│   │   ├── receiver.py                   # دریافت استریم
+│   │   └── decoder.py                    # دیکود ویدیو/صدا
+│   ├── control/
+│   │   ├── __init__.py
+│   │   └── commands.py                   # ارسال دستورات کنترلی
+│   ├── ui/
+│   │   ├── __init__.py
+│   │   └── main_window.py                # رابط کاربری PyQt6
+│   ├── virtual_camera/
+│   │   ├── __init__.py
+│   │   └── interface.py                  # ارتباط با Virtual Camera
+│   ├── main.py                           # نقطه ورود برنامه
+│   ├── requirements.txt                  # وابستگی‌های Python
+│   ├── setup.bat                         # اسکریپت نصب
+│   └── run.bat                           # اسکریپت اجرا
+│
+├── virtual-camera/                       # درایور دوربین مجازی
+│   ├── include/
+│   │   ├── common.h                      # تعاریف مشترک
+│   │   ├── VCamFilter.h                  # DirectShow Filter
+│   │   ├── VCamPin.h                     # Output Pin
+│   │   └── SharedMemory.h                # مدیریت حافظه مشترک
+│   ├── src/
+│   │   ├── VCamFilter.cpp
+│   │   ├── VCamPin.cpp
+│   │   ├── SharedMemory.cpp
+│   │   ├── Register.cpp                  # ثبت/حذف فیلتر
+│   │   └── DllMain.cpp
+│   ├── CMakeLists.txt
+│   ├── VirtualCamera.def
+│   ├── build.bat                         # اسکریپت Build
+│   ├── register.bat                      # اسکریپت ثبت
+│   └── unregister.bat                    # اسکریپت حذف
+│
+├── protocol/                             # مستندات پروتکل
+│   ├── protocol_spec.json                # مشخصات پروتکل
+│   ├── protocol.py                       # نسخه Python
+│   └── Protocol.kt                       # نسخه Kotlin
+│
+├── SETUP_GUIDE.txt                       # راهنمای نصب
+├── PROJECT_STRUCTURE.txt                 # این فایل
+├── quick_start.bat                       # منوی سریع
+└── .gitignore
+
+==========================================
+جزئیات کامپوننت‌ها
+==========================================
+
+1. اپلیکیشن اندروید:
+   - زبان: Kotlin
+   - حداقل SDK: API 26 (Android 8.0)
+   - کتابخانه‌های اصلی:
+     * CameraX: دسترسی به دوربین
+     * MediaCodec: انکود H.264/AAC
+     * Coroutines: عملیات async
+
+2. اپلیکیشن ویندوز:
+   - زبان: Python 3.11+
+   - کتابخانه‌های اصلی:
+     * PyQt6: رابط کاربری
+     * av (PyAV): دیکود ویدیو/صدا
+     * opencv-python: پردازش تصویر
+     * pyaudio: پخش صدا
+
+3. درایور دوربین مجازی:
+   - زبان: C++17
+   - فریمورک: DirectShow
+   - روش ارتباط: Shared Memory
+   - فرمت خروجی: RGB24
+
+==========================================
+پروتکل ارتباطی
+==========================================
+
+فرمت پکت:
++---------+-------------+-------------+------------+---------+
+| Magic   | Packet Type | Payload Size| Timestamp  | Seq Num |
+| 4 bytes | 1 byte      | 4 bytes     | 8 bytes    | 4 bytes |
++---------+-------------+-------------+------------+---------+
+| Payload (variable)                                         |
++------------------------------------------------------------+
+
+انواع پکت:
+- 0x01: Handshake Request
+- 0x02: Handshake Response
+- 0x10: Video Frame (H.264)
+- 0x11: Audio Frame (AAC)
+- 0x20: Control Command (JSON)
+- 0x21: Control Response
+- 0x30: Keepalive
+- 0xFF: Error
+
+دستورات کنترلی (JSON):
+{
+  "command": "set_resolution",
+  "parameters": {
+    "width": 1280,
+    "height": 720
+  }
+}
+
+دستورات موجود:
+- set_resolution: تغییر رزولوشن
+- set_fps: تغییر نرخ فریم
+- switch_camera: سوییچ دوربین
+- set_flash: روشن/خاموش فلش
+- set_focus: تنظیم فوکوس
+- set_brightness: تنظیم روشنایی
+
+==========================================
+جریان داده
+==========================================
+
+Android Device:
+  Camera → Encoder → Network/USB Streamer
+  Microphone → Audio Encoder → Network/USB Streamer
+  ↓
+Windows PC:
+  Network/USB Receiver → Decoder → Display + Virtual Camera
+  Control Panel → Commands → Android Device
+
+==========================================
+نکات امنیتی
+==========================================
+
+1. Pairing Code: کد 6 رقمی برای احراز هویت اولیه
+2. Local Network: ترجیحاً در شبکه محلی استفاده شود
+3. No Encryption: در نسخه فعلی رمزنگاری وجود ندارد
+   (برای محیط‌های تولید، TLS/SSL توصیه می‌شود)
+
+==========================================
+عملکرد و بهینه‌سازی
+==========================================
+
+1. استفاده از Hardware Encoder در اندروید
+2. حداقل Buffering برای کاهش Latency
+3. Thread Pool برای پردازش موازی
+4. Shared Memory برای انتقال سریع فریم‌ها
+
+==========================================
+
