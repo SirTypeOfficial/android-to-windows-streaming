@@ -106,6 +106,13 @@ class USBStreamer(private val port: Int = 8889) {
                 }
                 
             } catch (e: Exception) {
+                // Don't log "Connection reset" errors - this is normal when client disconnects
+                if (e is java.net.SocketException && 
+                    (e.message?.contains("Connection reset") == true || 
+                     e.message?.contains("Socket closed") == true)) {
+                    Log.d(TAG, "Client disconnected")
+                    break
+                }
                 Log.e(TAG, "Error receiving command", e)
                 break
             }

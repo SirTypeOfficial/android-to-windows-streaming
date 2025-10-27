@@ -32504,3 +32504,575 @@
 2025-10-27 20:26:05,863 - streaming.receiver - INFO - Stream receiver stopped
 2025-10-27 20:26:05,904 - streaming.connection - INFO - Disconnected
 2025-10-27 20:26:05,905 - ui.main_window - INFO - Disconnected from Android device
+2025-10-27 20:31:21,413 - streaming.connection - INFO - Connected to 192.168.70.131:8888 via WiFi
+2025-10-27 20:31:21,413 - ui.main_window - INFO - Connected to Android device
+2025-10-27 20:31:21,413 - streaming.receiver - INFO - Receive loop started
+2025-10-27 20:31:21,414 - streaming.receiver - INFO - Stream receiver started
+2025-10-27 20:31:21,451 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:21,451 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:21,451 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,507 - streaming.receiver - DEBUG - Received packet: type=17, size=429
+2025-10-27 20:31:21,507 - streaming.receiver - DEBUG - Handling audio frame: size=429
+2025-10-27 20:31:21,507 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,508 - streaming.receiver - DEBUG - Received packet: type=17, size=358
+2025-10-27 20:31:21,508 - streaming.receiver - DEBUG - Handling audio frame: size=358
+2025-10-27 20:31:21,508 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,508 - streaming.receiver - DEBUG - Received packet: type=17, size=386
+2025-10-27 20:31:21,508 - streaming.receiver - DEBUG - Handling audio frame: size=386
+2025-10-27 20:31:21,508 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,551 - streaming.receiver - DEBUG - Received packet: type=17, size=431
+2025-10-27 20:31:21,551 - streaming.receiver - DEBUG - Handling audio frame: size=431
+2025-10-27 20:31:21,552 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,552 - streaming.receiver - DEBUG - Received packet: type=17, size=346
+2025-10-27 20:31:21,552 - streaming.receiver - DEBUG - Handling audio frame: size=346
+2025-10-27 20:31:21,552 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,597 - streaming.receiver - DEBUG - Received packet: type=17, size=374
+2025-10-27 20:31:21,598 - streaming.receiver - DEBUG - Handling audio frame: size=374
+2025-10-27 20:31:21,598 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,643 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:21,643 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:21,643 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,643 - streaming.receiver - DEBUG - Received packet: type=17, size=359
+2025-10-27 20:31:21,644 - streaming.receiver - DEBUG - Handling audio frame: size=359
+2025-10-27 20:31:21,644 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,689 - streaming.receiver - DEBUG - Received packet: type=17, size=363
+2025-10-27 20:31:21,689 - streaming.receiver - DEBUG - Handling audio frame: size=363
+2025-10-27 20:31:21,690 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,690 - streaming.receiver - DEBUG - Received packet: type=17, size=359
+2025-10-27 20:31:21,690 - streaming.receiver - DEBUG - Handling audio frame: size=359
+2025-10-27 20:31:21,690 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,690 - streaming.receiver - DEBUG - Received packet: type=17, size=348
+2025-10-27 20:31:21,690 - streaming.receiver - DEBUG - Handling audio frame: size=348
+2025-10-27 20:31:21,690 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,734 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:21,734 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:21,734 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,780 - streaming.receiver - DEBUG - Received packet: type=17, size=370
+2025-10-27 20:31:21,780 - streaming.receiver - DEBUG - Handling audio frame: size=370
+2025-10-27 20:31:21,780 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,780 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:21,780 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:21,780 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,827 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:21,827 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:21,827 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,827 - streaming.receiver - DEBUG - Received packet: type=17, size=377
+2025-10-27 20:31:21,827 - streaming.receiver - DEBUG - Handling audio frame: size=377
+2025-10-27 20:31:21,827 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,873 - streaming.receiver - DEBUG - Received packet: type=17, size=385
+2025-10-27 20:31:21,873 - streaming.receiver - DEBUG - Handling audio frame: size=385
+2025-10-27 20:31:21,873 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,874 - streaming.receiver - DEBUG - Received packet: type=17, size=371
+2025-10-27 20:31:21,874 - streaming.receiver - DEBUG - Handling audio frame: size=371
+2025-10-27 20:31:21,874 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,874 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:21,874 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:21,874 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,918 - streaming.receiver - DEBUG - Received packet: type=17, size=411
+2025-10-27 20:31:21,918 - streaming.receiver - DEBUG - Handling audio frame: size=411
+2025-10-27 20:31:21,918 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,918 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:21,918 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:21,919 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,965 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:21,965 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:21,966 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:21,966 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:21,966 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:21,966 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,011 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:22,012 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:22,012 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,057 - streaming.receiver - DEBUG - Received packet: type=17, size=377
+2025-10-27 20:31:22,058 - streaming.receiver - DEBUG - Handling audio frame: size=377
+2025-10-27 20:31:22,058 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,104 - streaming.receiver - DEBUG - Received packet: type=17, size=360
+2025-10-27 20:31:22,104 - streaming.receiver - DEBUG - Handling audio frame: size=360
+2025-10-27 20:31:22,104 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,104 - streaming.receiver - DEBUG - Received packet: type=17, size=364
+2025-10-27 20:31:22,105 - streaming.receiver - DEBUG - Handling audio frame: size=364
+2025-10-27 20:31:22,105 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,105 - streaming.receiver - DEBUG - Received packet: type=17, size=353
+2025-10-27 20:31:22,105 - streaming.receiver - DEBUG - Handling audio frame: size=353
+2025-10-27 20:31:22,105 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,149 - streaming.receiver - DEBUG - Received packet: type=17, size=449
+2025-10-27 20:31:22,149 - streaming.receiver - DEBUG - Handling audio frame: size=449
+2025-10-27 20:31:22,149 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,149 - streaming.receiver - DEBUG - Received packet: type=17, size=350
+2025-10-27 20:31:22,150 - streaming.receiver - DEBUG - Handling audio frame: size=350
+2025-10-27 20:31:22,150 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,195 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:22,195 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:22,195 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,196 - streaming.receiver - DEBUG - Received packet: type=17, size=391
+2025-10-27 20:31:22,196 - streaming.receiver - DEBUG - Handling audio frame: size=391
+2025-10-27 20:31:22,196 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,242 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:22,242 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:22,242 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,242 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:22,242 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:22,242 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,287 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:22,287 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:22,287 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,287 - streaming.receiver - DEBUG - Received packet: type=17, size=398
+2025-10-27 20:31:22,287 - streaming.receiver - DEBUG - Handling audio frame: size=398
+2025-10-27 20:31:22,288 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,332 - streaming.receiver - DEBUG - Received packet: type=17, size=392
+2025-10-27 20:31:22,332 - streaming.receiver - DEBUG - Handling audio frame: size=392
+2025-10-27 20:31:22,332 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,333 - streaming.receiver - DEBUG - Received packet: type=17, size=391
+2025-10-27 20:31:22,333 - streaming.receiver - DEBUG - Handling audio frame: size=391
+2025-10-27 20:31:22,333 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,378 - streaming.receiver - DEBUG - Received packet: type=17, size=364
+2025-10-27 20:31:22,378 - streaming.receiver - DEBUG - Handling audio frame: size=364
+2025-10-27 20:31:22,378 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,378 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:22,378 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:22,379 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,424 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:22,424 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:22,424 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,425 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:22,425 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:22,425 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,469 - streaming.receiver - DEBUG - Received packet: type=17, size=531
+2025-10-27 20:31:22,469 - streaming.receiver - DEBUG - Handling audio frame: size=531
+2025-10-27 20:31:22,470 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,470 - streaming.receiver - DEBUG - Received packet: type=17, size=339
+2025-10-27 20:31:22,470 - streaming.receiver - DEBUG - Handling audio frame: size=339
+2025-10-27 20:31:22,470 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,516 - streaming.receiver - DEBUG - Received packet: type=17, size=338
+2025-10-27 20:31:22,517 - streaming.receiver - DEBUG - Handling audio frame: size=338
+2025-10-27 20:31:22,518 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,518 - streaming.receiver - DEBUG - Received packet: type=17, size=341
+2025-10-27 20:31:22,518 - streaming.receiver - DEBUG - Handling audio frame: size=341
+2025-10-27 20:31:22,518 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,562 - streaming.receiver - DEBUG - Received packet: type=17, size=373
+2025-10-27 20:31:22,562 - streaming.receiver - DEBUG - Handling audio frame: size=373
+2025-10-27 20:31:22,562 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,562 - streaming.receiver - DEBUG - Received packet: type=17, size=368
+2025-10-27 20:31:22,562 - streaming.receiver - DEBUG - Handling audio frame: size=368
+2025-10-27 20:31:22,562 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,610 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:22,610 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:22,610 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,610 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:22,610 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:22,610 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,611 - streaming.receiver - DEBUG - Received packet: type=17, size=368
+2025-10-27 20:31:22,611 - streaming.receiver - DEBUG - Handling audio frame: size=368
+2025-10-27 20:31:22,611 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,659 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:22,659 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:22,659 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,715 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:22,715 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:22,715 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,716 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:22,716 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:22,716 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,761 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:22,761 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:22,762 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,762 - streaming.receiver - DEBUG - Received packet: type=17, size=373
+2025-10-27 20:31:22,762 - streaming.receiver - DEBUG - Handling audio frame: size=373
+2025-10-27 20:31:22,762 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,806 - streaming.receiver - DEBUG - Received packet: type=17, size=455
+2025-10-27 20:31:22,809 - streaming.receiver - DEBUG - Handling audio frame: size=455
+2025-10-27 20:31:22,809 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,809 - streaming.receiver - DEBUG - Received packet: type=17, size=349
+2025-10-27 20:31:22,809 - streaming.receiver - DEBUG - Handling audio frame: size=349
+2025-10-27 20:31:22,809 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,855 - streaming.receiver - DEBUG - Received packet: type=17, size=349
+2025-10-27 20:31:22,855 - streaming.receiver - DEBUG - Handling audio frame: size=349
+2025-10-27 20:31:22,855 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,855 - streaming.receiver - DEBUG - Received packet: type=17, size=343
+2025-10-27 20:31:22,855 - streaming.receiver - DEBUG - Handling audio frame: size=343
+2025-10-27 20:31:22,855 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,900 - streaming.receiver - DEBUG - Received packet: type=17, size=352
+2025-10-27 20:31:22,900 - streaming.receiver - DEBUG - Handling audio frame: size=352
+2025-10-27 20:31:22,900 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,900 - streaming.receiver - DEBUG - Received packet: type=17, size=354
+2025-10-27 20:31:22,901 - streaming.receiver - DEBUG - Handling audio frame: size=354
+2025-10-27 20:31:22,901 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,901 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:22,901 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:22,901 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,901 - streaming.receiver - DEBUG - Received packet: type=17, size=364
+2025-10-27 20:31:22,901 - streaming.receiver - DEBUG - Handling audio frame: size=364
+2025-10-27 20:31:22,901 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:22,955 - streaming.receiver - DEBUG - Received packet: type=17, size=364
+2025-10-27 20:31:22,955 - streaming.receiver - DEBUG - Handling audio frame: size=364
+2025-10-27 20:31:22,955 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,007 - streaming.receiver - DEBUG - Received packet: type=17, size=374
+2025-10-27 20:31:23,007 - streaming.receiver - DEBUG - Handling audio frame: size=374
+2025-10-27 20:31:23,007 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,007 - streaming.receiver - DEBUG - Received packet: type=17, size=391
+2025-10-27 20:31:23,007 - streaming.receiver - DEBUG - Handling audio frame: size=391
+2025-10-27 20:31:23,008 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,053 - streaming.receiver - DEBUG - Received packet: type=17, size=379
+2025-10-27 20:31:23,053 - streaming.receiver - DEBUG - Handling audio frame: size=379
+2025-10-27 20:31:23,053 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,053 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:23,053 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:23,053 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,099 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:23,100 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:23,100 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,100 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:23,100 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:23,100 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,146 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:23,146 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:23,146 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,146 - streaming.receiver - DEBUG - Received packet: type=17, size=360
+2025-10-27 20:31:23,146 - streaming.receiver - DEBUG - Handling audio frame: size=360
+2025-10-27 20:31:23,146 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,194 - streaming.receiver - DEBUG - Received packet: type=17, size=391
+2025-10-27 20:31:23,194 - streaming.receiver - DEBUG - Handling audio frame: size=391
+2025-10-27 20:31:23,194 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,194 - streaming.receiver - DEBUG - Received packet: type=17, size=377
+2025-10-27 20:31:23,194 - streaming.receiver - DEBUG - Handling audio frame: size=377
+2025-10-27 20:31:23,195 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,241 - streaming.receiver - DEBUG - Received packet: type=17, size=378
+2025-10-27 20:31:23,241 - streaming.receiver - DEBUG - Handling audio frame: size=378
+2025-10-27 20:31:23,241 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,241 - streaming.receiver - DEBUG - Received packet: type=17, size=363
+2025-10-27 20:31:23,241 - streaming.receiver - DEBUG - Handling audio frame: size=363
+2025-10-27 20:31:23,241 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,287 - streaming.receiver - DEBUG - Received packet: type=17, size=371
+2025-10-27 20:31:23,287 - streaming.receiver - DEBUG - Handling audio frame: size=371
+2025-10-27 20:31:23,287 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,287 - streaming.receiver - DEBUG - Received packet: type=17, size=358
+2025-10-27 20:31:23,287 - streaming.receiver - DEBUG - Handling audio frame: size=358
+2025-10-27 20:31:23,287 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,330 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:23,331 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:23,331 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,331 - streaming.receiver - DEBUG - Received packet: type=17, size=368
+2025-10-27 20:31:23,331 - streaming.receiver - DEBUG - Handling audio frame: size=368
+2025-10-27 20:31:23,331 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,376 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:23,377 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:23,377 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,377 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:23,377 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:23,377 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,378 - streaming.receiver - DEBUG - Received packet: type=17, size=380
+2025-10-27 20:31:23,378 - streaming.receiver - DEBUG - Handling audio frame: size=380
+2025-10-27 20:31:23,378 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,424 - streaming.receiver - DEBUG - Received packet: type=17, size=377
+2025-10-27 20:31:23,424 - streaming.receiver - DEBUG - Handling audio frame: size=377
+2025-10-27 20:31:23,424 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,470 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:23,470 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:23,470 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,470 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:23,470 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:23,470 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,470 - streaming.receiver - DEBUG - Received packet: type=17, size=393
+2025-10-27 20:31:23,470 - streaming.receiver - DEBUG - Handling audio frame: size=393
+2025-10-27 20:31:23,471 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,515 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:23,515 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:23,515 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,515 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:23,515 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:23,515 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,563 - streaming.receiver - DEBUG - Received packet: type=17, size=377
+2025-10-27 20:31:23,563 - streaming.receiver - DEBUG - Handling audio frame: size=377
+2025-10-27 20:31:23,563 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,607 - streaming.receiver - DEBUG - Received packet: type=17, size=359
+2025-10-27 20:31:23,608 - streaming.receiver - DEBUG - Handling audio frame: size=359
+2025-10-27 20:31:23,608 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,608 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:23,608 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:23,608 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,608 - streaming.receiver - DEBUG - Received packet: type=17, size=363
+2025-10-27 20:31:23,608 - streaming.receiver - DEBUG - Handling audio frame: size=363
+2025-10-27 20:31:23,608 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,655 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:23,655 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:23,655 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,655 - streaming.receiver - DEBUG - Received packet: type=17, size=371
+2025-10-27 20:31:23,655 - streaming.receiver - DEBUG - Handling audio frame: size=371
+2025-10-27 20:31:23,655 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,704 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:23,704 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:23,704 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,749 - streaming.receiver - DEBUG - Received packet: type=17, size=377
+2025-10-27 20:31:23,749 - streaming.receiver - DEBUG - Handling audio frame: size=377
+2025-10-27 20:31:23,749 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,749 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:23,749 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:23,749 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,749 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:23,749 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:23,750 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,795 - streaming.receiver - DEBUG - Received packet: type=17, size=516
+2025-10-27 20:31:23,795 - streaming.receiver - DEBUG - Handling audio frame: size=516
+2025-10-27 20:31:23,795 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,842 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:23,874 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:23,874 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,874 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:23,874 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:23,874 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,888 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:23,889 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:23,889 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,889 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:23,889 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:23,889 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,933 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:23,934 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:23,934 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,934 - streaming.receiver - DEBUG - Received packet: type=17, size=345
+2025-10-27 20:31:23,934 - streaming.receiver - DEBUG - Handling audio frame: size=345
+2025-10-27 20:31:23,934 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,980 - streaming.receiver - DEBUG - Received packet: type=17, size=363
+2025-10-27 20:31:23,980 - streaming.receiver - DEBUG - Handling audio frame: size=363
+2025-10-27 20:31:23,980 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:23,980 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:23,980 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:23,980 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,025 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:24,025 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:24,025 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,025 - streaming.receiver - DEBUG - Received packet: type=17, size=358
+2025-10-27 20:31:24,025 - streaming.receiver - DEBUG - Handling audio frame: size=358
+2025-10-27 20:31:24,026 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,072 - streaming.receiver - DEBUG - Received packet: type=17, size=384
+2025-10-27 20:31:24,072 - streaming.receiver - DEBUG - Handling audio frame: size=384
+2025-10-27 20:31:24,072 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,072 - streaming.receiver - DEBUG - Received packet: type=17, size=414
+2025-10-27 20:31:24,072 - streaming.receiver - DEBUG - Handling audio frame: size=414
+2025-10-27 20:31:24,072 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,072 - streaming.receiver - DEBUG - Received packet: type=17, size=396
+2025-10-27 20:31:24,073 - streaming.receiver - DEBUG - Handling audio frame: size=396
+2025-10-27 20:31:24,073 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,120 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:24,120 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:24,120 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,120 - streaming.receiver - DEBUG - Received packet: type=17, size=364
+2025-10-27 20:31:24,120 - streaming.receiver - DEBUG - Handling audio frame: size=364
+2025-10-27 20:31:24,120 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,173 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:24,173 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:24,173 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,229 - streaming.receiver - DEBUG - Received packet: type=17, size=353
+2025-10-27 20:31:24,229 - streaming.receiver - DEBUG - Handling audio frame: size=353
+2025-10-27 20:31:24,229 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,230 - streaming.receiver - DEBUG - Received packet: type=17, size=359
+2025-10-27 20:31:24,230 - streaming.receiver - DEBUG - Handling audio frame: size=359
+2025-10-27 20:31:24,230 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,275 - streaming.receiver - DEBUG - Received packet: type=17, size=369
+2025-10-27 20:31:24,275 - streaming.receiver - DEBUG - Handling audio frame: size=369
+2025-10-27 20:31:24,275 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,275 - streaming.receiver - DEBUG - Received packet: type=17, size=368
+2025-10-27 20:31:24,275 - streaming.receiver - DEBUG - Handling audio frame: size=368
+2025-10-27 20:31:24,275 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,275 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:24,276 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:24,276 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,321 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:24,322 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:24,322 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,322 - streaming.receiver - DEBUG - Received packet: type=17, size=430
+2025-10-27 20:31:24,322 - streaming.receiver - DEBUG - Handling audio frame: size=430
+2025-10-27 20:31:24,322 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,369 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:24,369 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:24,369 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,369 - streaming.receiver - DEBUG - Received packet: type=17, size=360
+2025-10-27 20:31:24,369 - streaming.receiver - DEBUG - Handling audio frame: size=360
+2025-10-27 20:31:24,369 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,416 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:24,416 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:24,416 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,416 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:24,416 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:24,417 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,461 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:24,462 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:24,462 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,510 - streaming.receiver - DEBUG - Received packet: type=17, size=365
+2025-10-27 20:31:24,511 - streaming.receiver - DEBUG - Handling audio frame: size=365
+2025-10-27 20:31:24,511 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,511 - streaming.receiver - DEBUG - Received packet: type=17, size=368
+2025-10-27 20:31:24,511 - streaming.receiver - DEBUG - Handling audio frame: size=368
+2025-10-27 20:31:24,511 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:24,554 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Received packet: type=17, size=370
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Handling audio frame: size=370
+2025-10-27 20:31:24,554 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Received packet: type=17, size=525
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Handling audio frame: size=525
+2025-10-27 20:31:24,554 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,554 - streaming.receiver - DEBUG - Received packet: type=17, size=351
+2025-10-27 20:31:24,556 - streaming.receiver - DEBUG - Handling audio frame: size=351
+2025-10-27 20:31:24,556 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,613 - streaming.receiver - DEBUG - Received packet: type=17, size=349
+2025-10-27 20:31:24,613 - streaming.receiver - DEBUG - Handling audio frame: size=349
+2025-10-27 20:31:24,613 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,666 - streaming.receiver - DEBUG - Received packet: type=17, size=345
+2025-10-27 20:31:24,666 - streaming.receiver - DEBUG - Handling audio frame: size=345
+2025-10-27 20:31:24,666 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,666 - streaming.receiver - DEBUG - Received packet: type=17, size=363
+2025-10-27 20:31:24,666 - streaming.receiver - DEBUG - Handling audio frame: size=363
+2025-10-27 20:31:24,666 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,666 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:24,666 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:24,666 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,710 - streaming.receiver - DEBUG - Received packet: type=17, size=348
+2025-10-27 20:31:24,710 - streaming.receiver - DEBUG - Handling audio frame: size=348
+2025-10-27 20:31:24,710 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,755 - streaming.receiver - DEBUG - Received packet: type=17, size=445
+2025-10-27 20:31:24,755 - streaming.receiver - DEBUG - Handling audio frame: size=445
+2025-10-27 20:31:24,755 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,755 - streaming.receiver - DEBUG - Received packet: type=17, size=363
+2025-10-27 20:31:24,756 - streaming.receiver - DEBUG - Handling audio frame: size=363
+2025-10-27 20:31:24,756 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,804 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:24,804 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:24,804 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,804 - streaming.receiver - DEBUG - Received packet: type=17, size=370
+2025-10-27 20:31:24,804 - streaming.receiver - DEBUG - Handling audio frame: size=370
+2025-10-27 20:31:24,804 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,804 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:24,804 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:24,804 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,848 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:24,848 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:24,848 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,895 - streaming.receiver - DEBUG - Received packet: type=17, size=382
+2025-10-27 20:31:24,895 - streaming.receiver - DEBUG - Handling audio frame: size=382
+2025-10-27 20:31:24,896 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,896 - streaming.receiver - DEBUG - Received packet: type=17, size=371
+2025-10-27 20:31:24,896 - streaming.receiver - DEBUG - Handling audio frame: size=371
+2025-10-27 20:31:24,896 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,896 - streaming.receiver - DEBUG - Received packet: type=17, size=351
+2025-10-27 20:31:24,896 - streaming.receiver - DEBUG - Handling audio frame: size=351
+2025-10-27 20:31:24,896 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,941 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:24,941 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:24,941 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,942 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:24,942 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:24,942 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:24,988 - streaming.receiver - DEBUG - Received packet: type=17, size=506
+2025-10-27 20:31:24,988 - streaming.receiver - DEBUG - Handling audio frame: size=506
+2025-10-27 20:31:24,988 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,037 - streaming.receiver - DEBUG - Received packet: type=17, size=341
+2025-10-27 20:31:25,038 - streaming.receiver - DEBUG - Handling audio frame: size=341
+2025-10-27 20:31:25,038 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,038 - streaming.receiver - DEBUG - Received packet: type=17, size=357
+2025-10-27 20:31:25,038 - streaming.receiver - DEBUG - Handling audio frame: size=357
+2025-10-27 20:31:25,038 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Received packet: type=17, size=346
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Handling audio frame: size=346
+2025-10-27 20:31:25,095 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Received packet: type=17, size=347
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Handling audio frame: size=347
+2025-10-27 20:31:25,095 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:25,095 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,095 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:25,096 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:25,096 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,131 - streaming.receiver - DEBUG - Received packet: type=17, size=367
+2025-10-27 20:31:25,131 - streaming.receiver - DEBUG - Handling audio frame: size=367
+2025-10-27 20:31:25,132 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,223 - streaming.receiver - DEBUG - Received packet: type=17, size=446
+2025-10-27 20:31:25,236 - streaming.receiver - DEBUG - Handling audio frame: size=446
+2025-10-27 20:31:25,236 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,236 - streaming.receiver - DEBUG - Received packet: type=17, size=446
+2025-10-27 20:31:25,236 - streaming.receiver - DEBUG - Handling audio frame: size=446
+2025-10-27 20:31:25,236 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,236 - streaming.receiver - DEBUG - Received packet: type=17, size=337
+2025-10-27 20:31:25,236 - streaming.receiver - DEBUG - Handling audio frame: size=337
+2025-10-27 20:31:25,236 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,237 - streaming.receiver - DEBUG - Received packet: type=17, size=333
+2025-10-27 20:31:25,237 - streaming.receiver - DEBUG - Handling audio frame: size=333
+2025-10-27 20:31:25,237 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,249 - streaming.receiver - DEBUG - Received packet: type=17, size=353
+2025-10-27 20:31:25,249 - streaming.receiver - DEBUG - Handling audio frame: size=353
+2025-10-27 20:31:25,249 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,297 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:25,298 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:25,298 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,345 - streaming.receiver - DEBUG - Received packet: type=17, size=348
+2025-10-27 20:31:25,345 - streaming.receiver - DEBUG - Handling audio frame: size=348
+2025-10-27 20:31:25,345 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,345 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:25,345 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:25,345 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,391 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:25,391 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:25,391 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,391 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:25,391 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:25,391 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,436 - streaming.receiver - DEBUG - Received packet: type=17, size=352
+2025-10-27 20:31:25,436 - streaming.receiver - DEBUG - Handling audio frame: size=352
+2025-10-27 20:31:25,437 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,437 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:25,437 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:25,437 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,437 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:25,437 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:25,437 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,483 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:25,484 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:25,484 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,484 - streaming.receiver - DEBUG - Received packet: type=17, size=383
+2025-10-27 20:31:25,484 - streaming.receiver - DEBUG - Handling audio frame: size=383
+2025-10-27 20:31:25,484 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,529 - streaming.receiver - DEBUG - Received packet: type=17, size=360
+2025-10-27 20:31:25,529 - streaming.receiver - DEBUG - Handling audio frame: size=360
+2025-10-27 20:31:25,529 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,574 - streaming.receiver - DEBUG - Received packet: type=17, size=372
+2025-10-27 20:31:25,574 - streaming.receiver - DEBUG - Handling audio frame: size=372
+2025-10-27 20:31:25,574 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,575 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:25,575 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:25,575 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,622 - streaming.receiver - DEBUG - Received packet: type=17, size=374
+2025-10-27 20:31:25,623 - streaming.receiver - DEBUG - Handling audio frame: size=374
+2025-10-27 20:31:25,623 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,624 - streaming.receiver - DEBUG - Received packet: type=17, size=366
+2025-10-27 20:31:25,624 - streaming.receiver - DEBUG - Handling audio frame: size=366
+2025-10-27 20:31:25,624 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,625 - streaming.receiver - DEBUG - Received packet: type=17, size=394
+2025-10-27 20:31:25,625 - streaming.receiver - DEBUG - Handling audio frame: size=394
+2025-10-27 20:31:25,625 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,667 - streaming.receiver - DEBUG - Received packet: type=17, size=413
+2025-10-27 20:31:25,667 - streaming.receiver - DEBUG - Handling audio frame: size=413
+2025-10-27 20:31:25,667 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,668 - streaming.receiver - DEBUG - Received packet: type=17, size=346
+2025-10-27 20:31:25,668 - streaming.receiver - DEBUG - Handling audio frame: size=346
+2025-10-27 20:31:25,668 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,713 - streaming.receiver - DEBUG - Received packet: type=17, size=356
+2025-10-27 20:31:25,713 - streaming.receiver - DEBUG - Handling audio frame: size=356
+2025-10-27 20:31:25,713 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,714 - streaming.receiver - DEBUG - Received packet: type=17, size=361
+2025-10-27 20:31:25,714 - streaming.receiver - DEBUG - Handling audio frame: size=361
+2025-10-27 20:31:25,714 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,759 - streaming.receiver - DEBUG - Received packet: type=17, size=355
+2025-10-27 20:31:25,759 - streaming.receiver - DEBUG - Handling audio frame: size=355
+2025-10-27 20:31:25,760 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,760 - streaming.receiver - DEBUG - Received packet: type=17, size=362
+2025-10-27 20:31:25,760 - streaming.receiver - DEBUG - Handling audio frame: size=362
+2025-10-27 20:31:25,760 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,806 - streaming.receiver - DEBUG - Received packet: type=17, size=371
+2025-10-27 20:31:25,806 - streaming.receiver - DEBUG - Handling audio frame: size=371
+2025-10-27 20:31:25,807 - streaming.decoder - WARNING - Audio codec not yet configured, skipping frame
+2025-10-27 20:31:25,807 - streaming.receiver - INFO - Receive loop stopped
+2025-10-27 20:31:25,807 - streaming.receiver - INFO - Stream receiver stopped
+2025-10-27 20:31:25,852 - streaming.connection - INFO - Disconnected
+2025-10-27 20:31:25,852 - ui.main_window - INFO - Disconnected from Android device
