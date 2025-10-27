@@ -163,41 +163,27 @@ class MainActivity : AppCompatActivity() {
             service.getVideoEncoder()?.encodeFrame(imageProxy)
         }
         
+        // Set up callbacks for UI updates
+        service.onClientConnectedCallback = {
+            runOnUiThread {
+                tvStatus.text = getString(R.string.connected)
+                tvPairingCode.visibility = View.GONE
+                tvIpAddress.visibility = View.GONE
+            }
+        }
+        
+        service.onClientDisconnectedCallback = {
+            runOnUiThread {
+                tvStatus.text = getString(R.string.waiting_for_connection)
+                generatePairingCode()
+            }
+        }
+        
         if (useWifi) {
-            service.networkStreamer?.onClientConnected = {
-                runOnUiThread {
-                    tvStatus.text = getString(R.string.connected)
-                    tvPairingCode.visibility = View.GONE
-                    tvIpAddress.visibility = View.GONE
-                }
-            }
-            
-            service.networkStreamer?.onClientDisconnected = {
-                runOnUiThread {
-                    tvStatus.text = getString(R.string.waiting_for_connection)
-                    generatePairingCode()
-                }
-            }
-            
             service.networkStreamer?.onControlCommand = { command ->
                 controlHandler?.handleCommand(command)
             }
         } else {
-            service.usbStreamer?.onClientConnected = {
-                runOnUiThread {
-                    tvStatus.text = getString(R.string.connected)
-                    tvPairingCode.visibility = View.GONE
-                    tvIpAddress.visibility = View.GONE
-                }
-            }
-            
-            service.usbStreamer?.onClientDisconnected = {
-                runOnUiThread {
-                    tvStatus.text = getString(R.string.waiting_for_connection)
-                    generatePairingCode()
-                }
-            }
-            
             service.usbStreamer?.onControlCommand = { command ->
                 controlHandler?.handleCommand(command)
             }

@@ -12,7 +12,9 @@ class StreamReceiver:
         self.receive_thread: Optional[Thread] = None
         
         self.on_video_frame: Optional[Callable[[bytes, int, bool], None]] = None
+        self.on_video_config: Optional[Callable[[bytes], None]] = None
         self.on_audio_frame: Optional[Callable[[bytes, int], None]] = None
+        self.on_audio_config: Optional[Callable[[bytes], None]] = None
         self.on_control_response: Optional[Callable[[str], None]] = None
         
     def start(self):
@@ -58,7 +60,14 @@ class StreamReceiver:
     
     def _handle_packet(self, header: PacketHeader, payload: bytes):
         try:
-            if header.packet_type == PacketType.VIDEO_FRAME:
+            if header.packet_type == PacketType.VIDEO_CONFIG:
+                logger.info(f"Handling video config: size={len(payload)}")
+                if self.on_video_config:
+                    self.on_video_config(payload)
+                else:
+                    logger.warning("on_video_config callback is not set")
+            
+            elif header.packet_type == PacketType.VIDEO_FRAME:
                 logger.debug(f"Handling video frame: size={len(payload)}")
                 if self.on_video_frame:
                     is_keyframe = len(payload) > 4 and payload[4] == 0x67
@@ -70,6 +79,13 @@ class StreamReceiver:
                 logger.debug(f"Handling audio frame: size={len(payload)}")
                 if self.on_audio_frame:
                     self.on_audio_frame(payload, header.timestamp)
+            
+            elif header.packet_type == PacketType.AUDIO_CONFIG:
+                logger.info(f"Handling audio config: size={len(payload)}")
+                if self.on_audio_config:
+                    self.on_audio_config(payload)
+                else:
+                    logger.warning("on_audio_config callback is not set")
             
             elif header.packet_type == PacketType.CONTROL_RESPONSE:
                 if self.on_control_response:

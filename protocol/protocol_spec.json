@@ -16,6 +16,8 @@
   "packet_types": {
     "HANDSHAKE_REQUEST": 0x01,
     "HANDSHAKE_RESPONSE": 0x02,
+    "VIDEO_CONFIG": 0x03,
+    "AUDIO_CONFIG": 0x04,
     "VIDEO_FRAME": 0x10,
     "AUDIO_FRAME": 0x11,
     "CONTROL_COMMAND": 0x20,
@@ -82,7 +84,8 @@
     "codec": "AAC",
     "profile": "LC",
     "sample_rate": 44100,
-    "channels": 2
+    "channels": 2,
+    "config_data": "AAC Audio Specific Config (CSD-0) sent via AUDIO_CONFIG packet"
   },
   
   "handshake": {

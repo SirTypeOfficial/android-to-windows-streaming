@@ -14,8 +14,11 @@ class AudioEncoder(
     private var isRunning = false
     private val TAG = "AudioEncoder"
     private var recordingThread: Thread? = null
+    private var configSent = false
+    private var cachedConfigData: ByteArray? = null
     
     var onEncodedData: ((ByteArray, Long) -> Unit)? = null
+    var onConfigData: ((ByteArray) -> Unit)? = null
     
     fun start() {
         try {
@@ -88,22 +91,52 @@ class AudioEncoder(
                 var outputBufferIndex = codec.dequeueOutputBuffer(bufferInfo, 0)
                 
                 while (outputBufferIndex >= 0) {
-                    val outputBuffer = codec.getOutputBuffer(outputBufferIndex)
-                    
-                    if (outputBuffer != null && bufferInfo.size > 0) {
-                        val data = ByteArray(bufferInfo.size)
-                        outputBuffer.position(bufferInfo.offset)
-                        outputBuffer.get(data, 0, bufferInfo.size)
+                    if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                        // Send codec configuration data when format changes
+                        val outputFormat = codec.outputFormat
+                        val csd0 = outputFormat.getByteBuffer("csd-0")
+                        if (csd0 != null) {
+                            val configData = ByteArray(csd0.remaining())
+                            csd0.get(configData)
+                            
+                            // Cache the config data
+                            cachedConfigData = configData
+                            
+                            // Send config if callback is set
+                            if (!configSent) {
+                                onConfigData?.invoke(configData)
+                                configSent = true
+                                Log.d(TAG, "Audio config data sent: ${configData.size} bytes")
+                            }
+                        }
+                    } else {
+                        val outputBuffer = codec.getOutputBuffer(outputBufferIndex)
                         
-                        onEncodedData?.invoke(data, bufferInfo.presentationTimeUs)
+                        if (outputBuffer != null && bufferInfo.size > 0) {
+                            // Skip codec config buffers (they're sent separately)
+                            if ((bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG) == 0) {
+                                val data = ByteArray(bufferInfo.size)
+                                outputBuffer.position(bufferInfo.offset)
+                                outputBuffer.get(data, 0, bufferInfo.size)
+                                
+                                onEncodedData?.invoke(data, bufferInfo.presentationTimeUs)
+                            }
+                        }
+                        
+                        codec.releaseOutputBuffer(outputBufferIndex, false)
                     }
-                    
-                    codec.releaseOutputBuffer(outputBufferIndex, false)
                     outputBufferIndex = codec.dequeueOutputBuffer(bufferInfo, 0)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error recording audio", e)
             }
+        }
+    }
+    
+    fun resendConfig() {
+        cachedConfigData?.let { config ->
+            Log.d(TAG, "Resending audio config: ${config.size} bytes")
+            onConfigData?.invoke(config)
         }
     }
     
@@ -120,6 +153,8 @@ class AudioEncoder(
             mediaCodec?.stop()
             mediaCodec?.release()
             mediaCodec = null
+            
+            cachedConfigData = null
             
             Log.d(TAG, "Audio encoder stopped")
         } catch (e: Exception) {

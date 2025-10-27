@@ -198,7 +198,9 @@ class MainWindow(QMainWindow):
         
         self.video_decoder.on_frame_decoded = self.on_frame_decoded
         
+        self.stream_receiver.on_video_config = self.video_decoder.set_config
         self.stream_receiver.on_video_frame = self.video_decoder.decode
+        self.stream_receiver.on_audio_config = self.audio_decoder.set_config
         self.stream_receiver.on_audio_frame = self.audio_decoder.decode
     
     def connect_wifi(self):

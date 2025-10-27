@@ -112,13 +112,40 @@ class USBStreamer(private val port: Int = 8889) {
         }
     }
     
+    fun sendVideoConfig(configData: ByteArray) {
+        scope.launch {
+            try {
+                // Check if client is connected
+                if (clientSocket?.isConnected != true) {
+                    return@launch
+                }
+                
+                val packet = Packet(PacketType.VIDEO_CONFIG, configData, 0, 0)
+                outputStream?.write(packet.toBytes())
+                outputStream?.flush()
+                Log.d(TAG, "Video config sent: ${configData.size} bytes")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error sending video config", e)
+            }
+        }
+    }
+    
     fun sendVideoFrame(data: ByteArray, timestamp: Long, isKeyFrame: Boolean) {
         scope.launch {
             try {
+                // Check if client is connected
+                if (clientSocket?.isConnected != true) {
+                    return@launch
+                }
+                
                 val packet = Packet(PacketType.VIDEO_FRAME, data, timestamp, 0)
                 outputStream?.write(packet.toBytes())
                 outputStream?.flush()
             } catch (e: Exception) {
+                // Don't log if socket is already closed
+                if (clientSocket?.isConnected != true) {
+                    return@launch
+                }
                 Log.e(TAG, "Error sending video frame", e)
             }
         }
@@ -127,11 +154,38 @@ class USBStreamer(private val port: Int = 8889) {
     fun sendAudioFrame(data: ByteArray, timestamp: Long) {
         scope.launch {
             try {
+                // Check if client is connected
+                if (clientSocket?.isConnected != true) {
+                    return@launch
+                }
+                
                 val packet = Packet(PacketType.AUDIO_FRAME, data, timestamp, 0)
                 outputStream?.write(packet.toBytes())
                 outputStream?.flush()
             } catch (e: Exception) {
+                // Don't log if socket is already closed
+                if (clientSocket?.isConnected != true) {
+                    return@launch
+                }
                 Log.e(TAG, "Error sending audio frame", e)
+            }
+        }
+    }
+    
+    fun sendAudioConfig(configData: ByteArray) {
+        scope.launch {
+            try {
+                // Check if client is connected
+                if (clientSocket?.isConnected != true) {
+                    return@launch
+                }
+                
+                val packet = Packet(PacketType.AUDIO_CONFIG, configData, 0, 0)
+                outputStream?.write(packet.toBytes())
+                outputStream?.flush()
+                Log.d(TAG, "Audio config sent: ${configData.size} bytes")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error sending audio config", e)
             }
         }
     }

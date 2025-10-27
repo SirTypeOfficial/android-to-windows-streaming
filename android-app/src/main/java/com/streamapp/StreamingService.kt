@@ -27,6 +27,10 @@ class StreamingService : Service() {
     
     private var isStreaming = false
     
+    // Allow external code to register callbacks
+    var onClientConnectedCallback: (() -> Unit)? = null
+    var onClientDisconnectedCallback: (() -> Unit)? = null
+    
     inner class LocalBinder : Binder() {
         fun getService(): StreamingService = this@StreamingService
     }
@@ -51,21 +55,59 @@ class StreamingService : Service() {
         
         if (useWifi) {
             networkStreamer = NetworkStreamer()
+            videoEncoder?.onConfigData = { configData ->
+                networkStreamer?.sendVideoConfig(configData)
+            }
             videoEncoder?.onEncodedData = { data, timestamp, isKeyFrame ->
                 networkStreamer?.sendVideoFrame(data, timestamp, isKeyFrame)
+            }
+            audioEncoder?.onConfigData = { configData ->
+                networkStreamer?.sendAudioConfig(configData)
             }
             audioEncoder?.onEncodedData = { data, timestamp ->
                 networkStreamer?.sendAudioFrame(data, timestamp)
             }
+            
+            // Resend config when client connects
+            networkStreamer?.onClientConnected = {
+                Log.d(TAG, "Client connected via WiFi, resending configs")
+                videoEncoder?.resendConfig()
+                audioEncoder?.resendConfig()
+                onClientConnectedCallback?.invoke()
+            }
+            
+            networkStreamer?.onClientDisconnected = {
+                onClientDisconnectedCallback?.invoke()
+            }
+            
             networkStreamer?.start()
         } else {
             usbStreamer = USBStreamer()
+            videoEncoder?.onConfigData = { configData ->
+                usbStreamer?.sendVideoConfig(configData)
+            }
             videoEncoder?.onEncodedData = { data, timestamp, isKeyFrame ->
                 usbStreamer?.sendVideoFrame(data, timestamp, isKeyFrame)
+            }
+            audioEncoder?.onConfigData = { configData ->
+                usbStreamer?.sendAudioConfig(configData)
             }
             audioEncoder?.onEncodedData = { data, timestamp ->
                 usbStreamer?.sendAudioFrame(data, timestamp)
             }
+            
+            // Resend config when client connects
+            usbStreamer?.onClientConnected = {
+                Log.d(TAG, "Client connected via USB, resending configs")
+                videoEncoder?.resendConfig()
+                audioEncoder?.resendConfig()
+                onClientConnectedCallback?.invoke()
+            }
+            
+            usbStreamer?.onClientDisconnected = {
+                onClientDisconnectedCallback?.invoke()
+            }
+            
             usbStreamer?.start()
         }
         
@@ -94,6 +136,8 @@ class StreamingService : Service() {
     }
     
     fun getVideoEncoder(): VideoEncoder? = videoEncoder
+    
+    fun getAudioEncoder(): AudioEncoder? = audioEncoder
     
     fun isStreamingActive(): Boolean = isStreaming
     
