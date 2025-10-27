@@ -142,8 +142,8 @@ class USBStreamer(private val port: Int = 8889) {
                 outputStream?.write(packet.toBytes())
                 outputStream?.flush()
             } catch (e: Exception) {
-                // Don't log if socket is already closed
-                if (clientSocket?.isConnected != true) {
+                // Don't log "Broken pipe" errors when socket is disconnected
+                if (e is java.net.SocketException && e.message?.contains("Broken pipe") == true) {
                     return@launch
                 }
                 Log.e(TAG, "Error sending video frame", e)
@@ -163,8 +163,8 @@ class USBStreamer(private val port: Int = 8889) {
                 outputStream?.write(packet.toBytes())
                 outputStream?.flush()
             } catch (e: Exception) {
-                // Don't log if socket is already closed
-                if (clientSocket?.isConnected != true) {
+                // Don't log "Broken pipe" errors when socket is disconnected
+                if (e is java.net.SocketException && e.message?.contains("Broken pipe") == true) {
                     return@launch
                 }
                 Log.e(TAG, "Error sending audio frame", e)
