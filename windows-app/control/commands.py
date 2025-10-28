@@ -39,4 +39,36 @@ class ControlCommands:
     def set_brightness(self, value: float):
         command = ControlCommand.set_brightness(value)
         self._send_command(command)
+    
+    def set_zoom(self, ratio: float):
+        command = ControlCommand.set_zoom(ratio)
+        self._send_command(command)
+    
+    def set_manual_mode(self, enabled: bool):
+        command = ControlCommand.set_manual_mode(enabled)
+        self._send_command(command)
+    
+    def set_manual_iso(self, iso: int):
+        command = ControlCommand.set_manual_iso(iso)
+        self._send_command(command)
+    
+    def set_manual_shutter(self, nanos: int):
+        command = ControlCommand.set_manual_shutter(nanos)
+        self._send_command(command)
+    
+    def set_manual_focus(self, distance: float):
+        command = ControlCommand.set_manual_focus(distance)
+        self._send_command(command)
+    
+    def set_white_balance(self, mode: str, kelvin: int = 5500):
+        command = ControlCommand.set_white_balance(mode, kelvin)
+        self._send_command(command)
+    
+    def set_tap_focus(self, x: float, y: float, screen_width: int, screen_height: int):
+        command = ControlCommand.set_tap_focus(x, y, screen_width, screen_height)
+        self._send_command(command)
+    
+    def get_camera_capabilities(self):
+        command = ControlCommand.get_camera_capabilities()
+        self._send_command(command)
 

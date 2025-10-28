@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
         
         btnFlash.setOnClickListener {
-            cameraManager?.setFlashMode(!btnFlash.isChecked)
+            cameraManager?.enableTorch(!btnFlash.isChecked)
             btnFlash.isChecked = !btnFlash.isChecked
         }
         
@@ -157,10 +157,24 @@ class MainActivity : AppCompatActivity() {
     private fun startStreaming(width: Int = 1280, height: Int = 720, fps: Int = 30) {
         val service = streamingService ?: return
         
+        // Start streaming service (this creates and starts the encoder)
         service.startStreaming(width, height, fps, useWifi)
         
-        cameraManager?.onFrameAvailable = { imageProxy ->
-            service.getVideoEncoder()?.encodeFrame(imageProxy)
+        // Wait a bit to ensure encoder is fully initialized
+        Thread.sleep(200)
+        
+        // Get encoder surface and connect to camera
+        val encoder = service.getVideoEncoder()
+        if (encoder != null) {
+            val surface = encoder.getInputSurface()
+            if (surface != null && surface.isValid) {
+                Log.d(TAG, "Encoder surface valid, connecting to camera")
+                cameraManager?.setEncoderSurface(surface, this, previewView)
+            } else {
+                Log.e(TAG, "Failed to get valid encoder input surface")
+            }
+        } else {
+            Log.e(TAG, "VideoEncoder is null")
         }
         
         // Set up callbacks for UI updates
@@ -199,7 +213,9 @@ class MainActivity : AppCompatActivity() {
     
     private fun stopStreaming() {
         streamingService?.stopStreaming()
-        cameraManager?.onFrameAvailable = null
+        
+        // Disconnect encoder surface from camera
+        cameraManager?.setEncoderSurface(null, this, previewView)
         
         isStreaming = false
         btnStartStop.text = getString(R.string.start_streaming)

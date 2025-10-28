@@ -107,4 +107,41 @@ class ControlCommand:
     @staticmethod
     def set_brightness(value: float) -> str:
         return ControlCommand.create_command("set_brightness", {"value": value})
+    
+    @staticmethod
+    def set_zoom(ratio: float) -> str:
+        return ControlCommand.create_command("set_zoom", {"ratio": ratio})
+    
+    @staticmethod
+    def set_manual_mode(enabled: bool) -> str:
+        return ControlCommand.create_command("set_manual_mode", {"enabled": enabled})
+    
+    @staticmethod
+    def set_manual_iso(iso: int) -> str:
+        return ControlCommand.create_command("set_manual_iso", {"iso": iso})
+    
+    @staticmethod
+    def set_manual_shutter(nanos: int) -> str:
+        return ControlCommand.create_command("set_manual_shutter", {"nanos": nanos})
+    
+    @staticmethod
+    def set_manual_focus(distance: float) -> str:
+        return ControlCommand.create_command("set_manual_focus", {"distance": distance})
+    
+    @staticmethod
+    def set_white_balance(mode: str, kelvin: int) -> str:
+        return ControlCommand.create_command("set_white_balance", {"mode": mode, "kelvin": kelvin})
+    
+    @staticmethod
+    def set_tap_focus(x: float, y: float, screen_width: int, screen_height: int) -> str:
+        return ControlCommand.create_command("set_tap_focus", {
+            "x": x,
+            "y": y,
+            "screenWidth": screen_width,
+            "screenHeight": screen_height
+        })
+    
+    @staticmethod
+    def get_camera_capabilities() -> str:
+        return ControlCommand.create_command("get_camera_capabilities", {})
 

@@ -78,8 +78,21 @@ class Packet(
     
     companion object {
         fun fromBytes(data: ByteArray): Packet {
+            if (data.size < PacketHeader.HEADER_SIZE) {
+                throw IllegalArgumentException("Data too short for packet header: ${data.size} bytes")
+            }
+            
             val header = PacketHeader.fromBytes(data.sliceArray(0 until PacketHeader.HEADER_SIZE))
-            val payload = data.sliceArray(PacketHeader.HEADER_SIZE until PacketHeader.HEADER_SIZE + header.payloadSize)
+            
+            val expectedSize = PacketHeader.HEADER_SIZE + header.payloadSize
+            if (data.size < expectedSize) {
+                throw IllegalArgumentException(
+                    "Incomplete packet: expected $expectedSize bytes, got ${data.size} bytes " +
+                    "(header says payload is ${header.payloadSize} bytes)"
+                )
+            }
+            
+            val payload = data.sliceArray(PacketHeader.HEADER_SIZE until expectedSize)
             return Packet(header.packetType, payload, header.timestamp, header.sequenceNumber)
         }
     }

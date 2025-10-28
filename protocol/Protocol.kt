@@ -9,6 +9,8 @@ const val MAGIC_NUMBER = 0x4157534D
 enum class PacketType(val value: Byte) {
     HANDSHAKE_REQUEST(0x01),
     HANDSHAKE_RESPONSE(0x02),
+    VIDEO_CONFIG(0x03),
+    AUDIO_CONFIG(0x04),
     VIDEO_FRAME(0x10),
     AUDIO_FRAME(0x11),
     CONTROL_COMMAND(0x20),
@@ -124,6 +126,43 @@ object ControlCommand {
     
     fun setBrightness(value: Float): String {
         return createCommand("set_brightness", mapOf("value" to value))
+    }
+    
+    fun setZoom(ratio: Float): String {
+        return createCommand("set_zoom", mapOf("ratio" to ratio))
+    }
+    
+    fun setManualMode(enabled: Boolean): String {
+        return createCommand("set_manual_mode", mapOf("enabled" to enabled))
+    }
+    
+    fun setManualISO(iso: Int): String {
+        return createCommand("set_manual_iso", mapOf("iso" to iso))
+    }
+    
+    fun setManualShutter(nanos: Long): String {
+        return createCommand("set_manual_shutter", mapOf("nanos" to nanos))
+    }
+    
+    fun setManualFocus(distance: Float): String {
+        return createCommand("set_manual_focus", mapOf("distance" to distance))
+    }
+    
+    fun setWhiteBalance(mode: String, kelvin: Int): String {
+        return createCommand("set_white_balance", mapOf("mode" to mode, "kelvin" to kelvin))
+    }
+    
+    fun setTapFocus(x: Float, y: Float, screenWidth: Int, screenHeight: Int): String {
+        return createCommand("set_tap_focus", mapOf(
+            "x" to x,
+            "y" to y,
+            "screenWidth" to screenWidth,
+            "screenHeight" to screenHeight
+        ))
+    }
+    
+    fun getCameraCapabilities(): String {
+        return createCommand("get_camera_capabilities", emptyMap())
     }
 }
 

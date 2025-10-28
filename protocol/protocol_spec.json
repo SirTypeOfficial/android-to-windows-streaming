@@ -70,6 +70,56 @@
       "parameters": {
         "value": "float"
       }
+    },
+    "SET_ZOOM": {
+      "command": "set_zoom",
+      "parameters": {
+        "ratio": "float"
+      }
+    },
+    "SET_MANUAL_MODE": {
+      "command": "set_manual_mode",
+      "parameters": {
+        "enabled": "boolean"
+      }
+    },
+    "SET_MANUAL_ISO": {
+      "command": "set_manual_iso",
+      "parameters": {
+        "iso": "int"
+      }
+    },
+    "SET_MANUAL_SHUTTER": {
+      "command": "set_manual_shutter",
+      "parameters": {
+        "nanos": "long"
+      }
+    },
+    "SET_MANUAL_FOCUS": {
+      "command": "set_manual_focus",
+      "parameters": {
+        "distance": "float"
+      }
+    },
+    "SET_WHITE_BALANCE": {
+      "command": "set_white_balance",
+      "parameters": {
+        "mode": "string",
+        "kelvin": "int"
+      }
+    },
+    "SET_TAP_FOCUS": {
+      "command": "set_tap_focus",
+      "parameters": {
+        "x": "float",
+        "y": "float",
+        "screenWidth": "int",
+        "screenHeight": "int"
+      }
+    },
+    "GET_CAMERA_CAPABILITIES": {
+      "command": "get_camera_capabilities",
+      "parameters": {}
     }
   },
   

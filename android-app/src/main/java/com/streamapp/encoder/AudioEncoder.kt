@@ -90,40 +90,66 @@ class AudioEncoder(
                 val bufferInfo = MediaCodec.BufferInfo()
                 var outputBufferIndex = codec.dequeueOutputBuffer(bufferInfo, 0)
                 
-                while (outputBufferIndex >= 0) {
-                    if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                        // Send codec configuration data when format changes
-                        val outputFormat = codec.outputFormat
-                        val csd0 = outputFormat.getByteBuffer("csd-0")
-                        if (csd0 != null) {
-                            val configData = ByteArray(csd0.remaining())
-                            csd0.get(configData)
-                            
-                            // Cache the config data
-                            cachedConfigData = configData
-                            
-                            // Send config if callback is set
-                            if (!configSent) {
-                                onConfigData?.invoke(configData)
-                                configSent = true
-                                Log.d(TAG, "Audio config data sent: ${configData.size} bytes")
-                            }
-                        }
-                    } else {
-                        val outputBuffer = codec.getOutputBuffer(outputBufferIndex)
-                        
-                        if (outputBuffer != null && bufferInfo.size > 0) {
-                            // Skip codec config buffers (they're sent separately)
-                            if ((bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG) == 0) {
-                                val data = ByteArray(bufferInfo.size)
-                                outputBuffer.position(bufferInfo.offset)
-                                outputBuffer.get(data, 0, bufferInfo.size)
+                while (outputBufferIndex >= 0 || outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                    when (outputBufferIndex) {
+                        MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
+                            // Send codec configuration data when format changes
+                            val outputFormat = codec.outputFormat
+                            val csd0 = outputFormat.getByteBuffer("csd-0")
+                            if (csd0 != null) {
+                                val csd0Data = ByteArray(csd0.remaining())
+                                csd0.get(csd0Data)
                                 
-                                onEncodedData?.invoke(data, bufferInfo.presentationTimeUs)
+                                // Create config packet: [sample_rate (4 bytes)][channels (4 bytes)][extradata]
+                                val configData = ByteBuffer.allocate(8 + csd0Data.size)
+                                configData.putInt(sampleRate)
+                                configData.putInt(channelCount)
+                                configData.put(csd0Data)
+                                
+                                // Cache the config data
+                                cachedConfigData = configData.array()
+                                
+                                // Send config if callback is set
+                                if (!configSent) {
+                                    onConfigData?.invoke(cachedConfigData!!)
+                                    configSent = true
+                                    Log.d(TAG, "Audio config data sent: sampleRate=$sampleRate, channels=$channelCount, extradata=${csd0Data.size} bytes")
+                                }
+                            }
+                            // Continue to get next buffer after format change
+                            outputBufferIndex = codec.dequeueOutputBuffer(bufferInfo, 0)
+                            continue
+                        }
+                        MediaCodec.INFO_TRY_AGAIN_LATER -> {
+                            // No output available yet
+                            break
+                        }
+                        MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED -> {
+                            // Output buffers changed (deprecated, but handle it)
+                            Log.d(TAG, "Output buffers changed")
+                            outputBufferIndex = codec.dequeueOutputBuffer(bufferInfo, 0)
+                            continue
+                        }
+                        else -> {
+                            // Valid output buffer index
+                            if (outputBufferIndex >= 0) {
+                                val outputBuffer = codec.getOutputBuffer(outputBufferIndex)
+                                
+                                if (outputBuffer != null && bufferInfo.size > 0) {
+                                    // Skip codec config buffers (they're sent separately)
+                                    if ((bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG) == 0) {
+                                        val data = ByteArray(bufferInfo.size)
+                                        outputBuffer.position(bufferInfo.offset)
+                                        outputBuffer.get(data, 0, bufferInfo.size)
+                                        
+                                        onEncodedData?.invoke(data, bufferInfo.presentationTimeUs)
+                                        Log.v(TAG, "Audio frame encoded: size=${data.size}")
+                                    }
+                                }
+                                
+                                codec.releaseOutputBuffer(outputBufferIndex, false)
                             }
                         }
-                        
-                        codec.releaseOutputBuffer(outputBufferIndex, false)
                     }
                     outputBufferIndex = codec.dequeueOutputBuffer(bufferInfo, 0)
                 }
