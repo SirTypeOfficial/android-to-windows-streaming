@@ -1,61 +1,57 @@
 import logging
-import mmap
 import numpy as np
-from typing import Optional
-import sys
+import cv2
 
 logger = logging.getLogger(__name__)
 
 class VirtualCameraInterface:
     def __init__(self):
-        self.shared_memory: Optional[mmap.mmap] = None
+        self.camera = None
         self.is_running = False
-        self.frame_size = 1920 * 1080 * 3
-        self.shared_memory_name = "VirtualCameraSharedMemory"
+        self.width = 1920
+        self.height = 1080
+        self.fps = 30
         
     def start(self) -> bool:
         try:
-            if sys.platform == 'win32':
-                self.shared_memory = mmap.mmap(-1, self.frame_size, self.shared_memory_name, access=mmap.ACCESS_WRITE)
-            else:
-                self.shared_memory = mmap.mmap(-1, self.frame_size, self.shared_memory_name)
+            import pyvirtualcam
+            
+            self.camera = pyvirtualcam.Camera(
+                width=self.width,
+                height=self.height,
+                fps=self.fps,
+                fmt=pyvirtualcam.PixelFormat.RGB
+            )
             self.is_running = True
-            logger.info("Virtual camera interface started")
+            logger.info(f"✓ Virtual camera فعال شد: {self.camera.device}")
             return True
         except Exception as e:
-            logger.error(f"Failed to start virtual camera interface: {e}", exc_info=True)
+            logger.error(f"خطای virtual camera: {e}")
+            logger.warning("نصب OBS Studio ضروری است")
             return False
     
     def stop(self):
-        if self.shared_memory:
+        if self.camera:
             try:
-                self.shared_memory.close()
+                self.camera.close()
             except:
                 pass
-            self.shared_memory = None
-        
+            self.camera = None
         self.is_running = False
-        logger.info("Virtual camera interface stopped")
     
     def send_frame(self, frame: np.ndarray):
-        if not self.is_running or not self.shared_memory:
+        if not self.is_running or not self.camera:
             return
         
         try:
-            height, width, channels = frame.shape
+            h, w = frame.shape[:2]
+            if w != self.width or h != self.height:
+                frame = cv2.resize(frame, (self.width, self.height))
             
-            if width != 1920 or height != 1080:
-                frame = np.array(frame)
-                import cv2
-                frame = cv2.resize(frame, (1920, 1080))
-            
-            frame_bytes = frame.tobytes()
-            
-            self.shared_memory.seek(0)
-            self.shared_memory.write(frame_bytes[:self.frame_size])
-            
+            if len(frame.shape) == 3 and frame.shape[2] == 3:
+                self.camera.send(frame)
         except Exception as e:
-            logger.error(f"Error sending frame to virtual camera: {e}")
+            logger.error(f"خطا در ارسال فریم: {e}")
     
     def is_active(self) -> bool:
         return self.is_running

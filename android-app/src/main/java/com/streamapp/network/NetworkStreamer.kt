@@ -1,7 +1,9 @@
 package com.streamapp.network
 
 import android.util.Log
+import com.streamapp.protocol.MAGIC_NUMBER
 import com.streamapp.protocol.Packet
+import com.streamapp.protocol.PacketHeader
 import com.streamapp.protocol.PacketType
 import kotlinx.coroutines.*
 import java.io.InputStream
@@ -76,37 +78,63 @@ class NetworkStreamer(private val port: Int = 8888) {
     
     private suspend fun receiveCommands() {
         val stream = inputStream ?: return
+        var consecutiveErrors = 0
+        val maxConsecutiveErrors = 5
         
         while (isRunning && clientSocket?.isConnected == true) {
             try {
-                val headerBuffer = ByteArray(21)
+                val headerBuffer = ByteArray(PacketHeader.HEADER_SIZE)
                 var totalRead = 0
                 
-                while (totalRead < 21) {
-                    val read = stream.read(headerBuffer, totalRead, 21 - totalRead)
+                while (totalRead < PacketHeader.HEADER_SIZE) {
+                    val read = stream.read(headerBuffer, totalRead, PacketHeader.HEADER_SIZE - totalRead)
                     if (read == -1) return
                     totalRead += read
                 }
                 
-                val packet = Packet.fromBytes(headerBuffer + ByteArray(0))
+                val header = PacketHeader.fromBytes(headerBuffer)
                 
-                val payloadBuffer = ByteArray(packet.header.payloadSize)
+                if (header.magic != MAGIC_NUMBER) {
+                    Log.e(TAG, "Invalid magic number: 0x${header.magic.toString(16).uppercase()}")
+                    consecutiveErrors++
+                    if (consecutiveErrors >= maxConsecutiveErrors) {
+                        Log.e(TAG, "Too many consecutive errors, stopping command receiver")
+                        break
+                    }
+                    continue
+                }
+                
+                if (header.payloadSize < 0 || header.payloadSize > 1024 * 1024) {
+                    Log.e(TAG, "Invalid payload size: ${header.payloadSize}")
+                    consecutiveErrors++
+                    if (consecutiveErrors >= maxConsecutiveErrors) {
+                        Log.e(TAG, "Too many consecutive errors, stopping command receiver")
+                        break
+                    }
+                    continue
+                }
+                
+                val payloadBuffer = ByteArray(header.payloadSize)
                 totalRead = 0
-                while (totalRead < packet.header.payloadSize) {
-                    val read = stream.read(payloadBuffer, totalRead, packet.header.payloadSize - totalRead)
+                while (totalRead < header.payloadSize) {
+                    val read = stream.read(payloadBuffer, totalRead, header.payloadSize - totalRead)
                     if (read == -1) return
                     totalRead += read
                 }
                 
-                if (packet.header.packetType == PacketType.CONTROL_COMMAND) {
-                    val command = String(payloadBuffer, Charsets.UTF_8)
+                val fullPacket = headerBuffer + payloadBuffer
+                val packet = Packet.fromBytes(fullPacket)
+                
+                consecutiveErrors = 0
+                
+                if (packet.packetType == PacketType.CONTROL_COMMAND) {
+                    val command = String(packet.payload, Charsets.UTF_8)
                     withContext(Dispatchers.Main) {
                         onControlCommand?.invoke(command)
                     }
                 }
                 
             } catch (e: Exception) {
-                // Don't log "Connection reset" errors - this is normal when client disconnects
                 if (e is java.net.SocketException && 
                     (e.message?.contains("Connection reset") == true || 
                      e.message?.contains("Socket closed") == true)) {
@@ -114,7 +142,11 @@ class NetworkStreamer(private val port: Int = 8888) {
                     break
                 }
                 Log.e(TAG, "Error receiving command", e)
-                break
+                consecutiveErrors++
+                if (consecutiveErrors >= maxConsecutiveErrors) {
+                    Log.e(TAG, "Too many consecutive errors, stopping command receiver")
+                    break
+                }
             }
         }
     }

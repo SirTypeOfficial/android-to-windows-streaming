@@ -26,6 +26,10 @@ class StreamingService : Service() {
         private set
     
     private var isStreaming = false
+    private var useWifi = false
+    private var currentWidth = 1280
+    private var currentHeight = 720
+    private var currentFps = 30
     
     // Allow external code to register callbacks
     var onClientConnectedCallback: (() -> Unit)? = null
@@ -45,10 +49,18 @@ class StreamingService : Service() {
         startForeground(NOTIFICATION_ID, createNotification())
     }
     
+    // Allow external code to register control command handler
+    var onControlCommandCallback: ((String) -> Unit)? = null
+    
     fun startStreaming(width: Int, height: Int, fps: Int, useWifi: Boolean) {
         if (isStreaming) return
         
         Log.d(TAG, "Starting streaming: ${width}x${height} @ ${fps}fps via ${if (useWifi) "WiFi" else "USB"}")
+        
+        this.useWifi = useWifi
+        this.currentWidth = width
+        this.currentHeight = height
+        this.currentFps = fps
         
         videoEncoder = VideoEncoder(width, height, fps)
         audioEncoder = AudioEncoder()
@@ -66,6 +78,12 @@ class StreamingService : Service() {
             }
             audioEncoder?.onEncodedData = { data, timestamp ->
                 networkStreamer?.sendAudioFrame(data, timestamp)
+            }
+            
+            // Handle control commands
+            networkStreamer?.onControlCommand = { command ->
+                Log.d(TAG, "Received control command via WiFi: $command")
+                onControlCommandCallback?.invoke(command)
             }
             
             // Resend config when client connects
@@ -94,6 +112,12 @@ class StreamingService : Service() {
             }
             audioEncoder?.onEncodedData = { data, timestamp ->
                 usbStreamer?.sendAudioFrame(data, timestamp)
+            }
+            
+            // Handle control commands
+            usbStreamer?.onControlCommand = { command ->
+                Log.d(TAG, "Received control command via USB: $command")
+                onControlCommandCallback?.invoke(command)
             }
             
             // Resend config when client connects
@@ -140,6 +164,65 @@ class StreamingService : Service() {
     fun getAudioEncoder(): AudioEncoder? = audioEncoder
     
     fun isStreamingActive(): Boolean = isStreaming
+    
+    fun updateResolution(width: Int, height: Int) {
+        if (!isStreaming) return
+        
+        Log.d(TAG, "Updating resolution: ${width}x${height}")
+        
+        currentWidth = width
+        currentHeight = height
+        
+        videoEncoder?.stop()
+        videoEncoder = VideoEncoder(width, height, currentFps)
+        
+        if (useWifi) {
+            videoEncoder?.onConfigData = { configData ->
+                networkStreamer?.sendVideoConfig(configData)
+            }
+            videoEncoder?.onEncodedData = { data, timestamp, isKeyFrame ->
+                networkStreamer?.sendVideoFrame(data, timestamp, isKeyFrame)
+            }
+        } else {
+            videoEncoder?.onConfigData = { configData ->
+                usbStreamer?.sendVideoConfig(configData)
+            }
+            videoEncoder?.onEncodedData = { data, timestamp, isKeyFrame ->
+                usbStreamer?.sendVideoFrame(data, timestamp, isKeyFrame)
+            }
+        }
+        
+        videoEncoder?.start()
+    }
+    
+    fun updateFps(fps: Int) {
+        if (!isStreaming) return
+        
+        Log.d(TAG, "Updating FPS: $fps")
+        
+        currentFps = fps
+        
+        videoEncoder?.stop()
+        videoEncoder = VideoEncoder(currentWidth, currentHeight, fps)
+        
+        if (useWifi) {
+            videoEncoder?.onConfigData = { configData ->
+                networkStreamer?.sendVideoConfig(configData)
+            }
+            videoEncoder?.onEncodedData = { data, timestamp, isKeyFrame ->
+                networkStreamer?.sendVideoFrame(data, timestamp, isKeyFrame)
+            }
+        } else {
+            videoEncoder?.onConfigData = { configData ->
+                usbStreamer?.sendVideoConfig(configData)
+            }
+            videoEncoder?.onEncodedData = { data, timestamp, isKeyFrame ->
+                usbStreamer?.sendVideoFrame(data, timestamp, isKeyFrame)
+            }
+        }
+        
+        videoEncoder?.start()
+    }
     
     override fun onDestroy() {
         stopStreaming()

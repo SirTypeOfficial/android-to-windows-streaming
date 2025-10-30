@@ -90,7 +90,6 @@ class ControlHandler(
     
     private fun setResolution(width: Int, height: Int) {
         Log.d(TAG, "Setting resolution: ${width}x${height}")
-        cameraManager.setResolution(width, height, lifecycleOwner, previewView)
         onResolutionChanged?.invoke(width, height)
     }
     

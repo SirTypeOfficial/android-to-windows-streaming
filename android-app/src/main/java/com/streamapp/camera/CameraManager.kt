@@ -26,10 +26,12 @@ class CameraManager(private val context: Context) {
     private val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     
     var currentResolution = Size(1280, 720)
-        private set
     
     private var encoderSurface: Surface? = null
     private var manualMode = false
+    private var manualISO: Int? = null
+    private var manualShutter: Long? = null
+    private var manualFocusDistance: Float? = null
     private val TAG = "CameraManager"
     
     fun initialize(lifecycleOwner: LifecycleOwner, previewView: PreviewView, callback: (Boolean) -> Unit) {
@@ -157,29 +159,48 @@ class CameraManager(private val context: Context) {
         Log.d(TAG, "Torch enabled: $enabled")
     }
     
+    private fun applyCameraSettings() {
+        val camera2Control = Camera2CameraControl.from(camera?.cameraControl ?: return)
+        val builder = CaptureRequestOptions.Builder()
+        
+        if (manualMode) {
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_OFF)
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF)
+            
+            manualISO?.let {
+                builder.setCaptureRequestOption(CaptureRequest.SENSOR_SENSITIVITY, it)
+            }
+            
+            manualShutter?.let {
+                builder.setCaptureRequestOption(CaptureRequest.SENSOR_EXPOSURE_TIME, it)
+            }
+            
+            manualFocusDistance?.let {
+                builder.setCaptureRequestOption(CaptureRequest.LENS_FOCUS_DISTANCE, it)
+            }
+        } else {
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+            builder.setCaptureRequestOption(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO)
+        }
+        
+        camera2Control.captureRequestOptions = builder.build()
+    }
+    
     // Manual Mode Controls
     fun setManualMode(enabled: Boolean) {
         manualMode = enabled
         Log.d(TAG, "Manual mode: $enabled")
         
-        val camera2Control = Camera2CameraControl.from(camera?.cameraControl ?: return)
-        
-        if (enabled) {
-            // Switch to manual mode - disable auto AE, AF, AWB
-            val captureOptions = CaptureRequestOptions.Builder()
-                .setCaptureRequestOption(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_OFF)
-                .build()
-            camera2Control.captureRequestOptions = captureOptions
-        } else {
-            // Switch back to auto mode
-            val captureOptions = CaptureRequestOptions.Builder()
-                .setCaptureRequestOption(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
-                .setCaptureRequestOption(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
-                .setCaptureRequestOption(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-                .setCaptureRequestOption(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO)
-                .build()
-            camera2Control.captureRequestOptions = captureOptions
+        if (!enabled) {
+            manualISO = null
+            manualShutter = null
+            manualFocusDistance = null
         }
+        
+        applyCameraSettings()
     }
     
     fun setManualISO(iso: Int) {
@@ -188,13 +209,9 @@ class CameraManager(private val context: Context) {
             return
         }
         
-        val camera2Control = Camera2CameraControl.from(camera?.cameraControl ?: return)
-        val captureOptions = CaptureRequestOptions.Builder()
-            .setCaptureRequestOption(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
-            .setCaptureRequestOption(CaptureRequest.SENSOR_SENSITIVITY, iso)
-            .build()
-        camera2Control.captureRequestOptions = captureOptions
+        manualISO = iso
         Log.d(TAG, "Manual ISO set to: $iso")
+        applyCameraSettings()
     }
     
     fun setManualShutterSpeed(nanos: Long) {
@@ -203,13 +220,9 @@ class CameraManager(private val context: Context) {
             return
         }
         
-        val camera2Control = Camera2CameraControl.from(camera?.cameraControl ?: return)
-        val captureOptions = CaptureRequestOptions.Builder()
-            .setCaptureRequestOption(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
-            .setCaptureRequestOption(CaptureRequest.SENSOR_EXPOSURE_TIME, nanos)
-            .build()
-        camera2Control.captureRequestOptions = captureOptions
+        manualShutter = nanos
         Log.d(TAG, "Manual shutter speed set to: ${nanos}ns")
+        applyCameraSettings()
     }
     
     fun setManualFocusDistance(distance: Float) {
@@ -218,13 +231,9 @@ class CameraManager(private val context: Context) {
             return
         }
         
-        val camera2Control = Camera2CameraControl.from(camera?.cameraControl ?: return)
-        val captureOptions = CaptureRequestOptions.Builder()
-            .setCaptureRequestOption(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF)
-            .setCaptureRequestOption(CaptureRequest.LENS_FOCUS_DISTANCE, distance)
-            .build()
-        camera2Control.captureRequestOptions = captureOptions
+        manualFocusDistance = distance
         Log.d(TAG, "Manual focus distance set to: $distance")
+        applyCameraSettings()
     }
     
     fun setWhiteBalance(mode: String, kelvin: Int) {

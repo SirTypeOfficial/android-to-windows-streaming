@@ -29,6 +29,7 @@ class MainWindow(QMainWindow):
         self.audio_decoder = AudioDecoder()
         self.control_commands = ControlCommands(self.connection_manager)
         self.virtual_camera = VirtualCameraInterface()
+        self.device_manager = None
         
         self.is_streaming = False
         self.current_frame = None
@@ -562,4 +563,8 @@ class MainWindow(QMainWindow):
         self.virtual_camera.stop()
         self.video_decoder.close()
         self.audio_decoder.close()
+        
+        if self.device_manager:
+            self.device_manager.cleanup()
+        
         event.accept()

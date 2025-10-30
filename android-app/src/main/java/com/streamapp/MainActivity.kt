@@ -133,15 +133,28 @@ class MainActivity : AppCompatActivity() {
     private fun setupControlHandler() {
         controlHandler?.onResolutionChanged = { width, height ->
             if (isStreaming) {
-                stopStreaming()
-                startStreaming(width, height)
+                cameraManager?.currentResolution = android.util.Size(width, height)
+                streamingService?.updateResolution(width, height)
+                previewView.postDelayed({
+                    val encoder = streamingService?.getVideoEncoder()
+                    val surface = encoder?.getInputSurface()
+                    if (surface != null && surface.isValid) {
+                        cameraManager?.setEncoderSurface(surface, this, previewView)
+                    }
+                }, 200)
             }
         }
         
         controlHandler?.onFpsChanged = { fps ->
             if (isStreaming) {
-                stopStreaming()
-                startStreaming(fps = fps)
+                streamingService?.updateFps(fps)
+                previewView.postDelayed({
+                    val encoder = streamingService?.getVideoEncoder()
+                    val surface = encoder?.getInputSurface()
+                    if (surface != null && surface.isValid) {
+                        cameraManager?.setEncoderSurface(surface, this, previewView)
+                    }
+                }, 200)
             }
         }
     }
@@ -193,14 +206,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         
-        if (useWifi) {
-            service.networkStreamer?.onControlCommand = { command ->
-                controlHandler?.handleCommand(command)
-            }
-        } else {
-            service.usbStreamer?.onControlCommand = { command ->
-                controlHandler?.handleCommand(command)
-            }
+        // Set up control command handler
+        service.onControlCommandCallback = { command ->
+            Log.d(TAG, "Received control command in MainActivity: $command")
+            controlHandler?.handleCommand(command)
         }
         
         isStreaming = true
