@@ -1,0 +1,17 @@
+TARGETNAME=vcam
+TARGETTYPE=DRIVER
+DRIVERTYPE=WDM
+
+TARGETLIBS=$(DDK_LIB_PATH)\ks.lib \
+           $(DDK_LIB_PATH)\ksguid.lib
+
+INCLUDES=$(INCLUDES);$(DDK_INC_PATH);inc
+
+SOURCES=src\vcam_driver.c \
+        src\vcam_filter.c \
+        src\vcam_pin.c \
+        src\vcam_formats.c \
+        src\vcam_ioctl.c
+
+C_DEFINES=$(C_DEFINES) -DUNICODE -D_UNICODE
+

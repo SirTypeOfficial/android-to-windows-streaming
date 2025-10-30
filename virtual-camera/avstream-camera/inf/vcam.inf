@@ -1,0 +1,64 @@
+;
+; Virtual Camera Driver INF File
+; Copyright (c) 2025
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Camera
+ClassGuid={ca3e7ab9-b4c3-4ae6-8251-579ef933890f}
+Provider=%ManufacturerName%
+CatalogFile=vcam.cat
+DriverVer=01/01/2025,1.0.0.0
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+vcam.sys = 1,,
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64.10.0...22000
+
+[Standard.NTamd64.10.0...22000]
+%VCam.DeviceDesc%=VCam_Device, Root\VirtualCamera
+
+[VCam_Device.NT]
+CopyFiles=VCam_Device_CopyFiles
+
+[VCam_Device_CopyFiles]
+vcam.sys
+
+[VCam_Device.NT.Services]
+AddService=VCam,%SPSVCINST_ASSOCSERVICE%,VCam_Service_Inst
+
+[VCam_Service_Inst]
+DisplayName=%VCam.ServiceDesc%
+ServiceType=1               ; SERVICE_KERNEL_DRIVER
+StartType=3                 ; SERVICE_DEMAND_START
+ErrorControl=1              ; SERVICE_ERROR_NORMAL
+ServiceBinary=%13%\vcam.sys
+
+[VCam_Device.NT.Interfaces]
+AddInterface=%KSCATEGORY_VIDEO_CAMERA%,GLOBAL,VCamInterface
+
+[VCamInterface]
+AddReg=VCamInterface.AddReg
+
+[VCamInterface.AddReg]
+HKR,,CLSID,,%ProxyVCap.CLSID%
+HKR,,FriendlyName,,%VCam.DeviceDesc%
+
+[Strings]
+SPSVCINST_ASSOCSERVICE=0x00000002
+ManufacturerName="Virtual Device Manufacturer"
+DiskName="Virtual Camera Installation Disk"
+VCam.DeviceDesc="Virtual Camera Device"
+VCam.ServiceDesc="Virtual Camera Driver Service"
+KSCATEGORY_VIDEO_CAMERA="{E5323777-F976-4f5b-9B55-B94699C46E44}"
+ProxyVCap.CLSID="{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+

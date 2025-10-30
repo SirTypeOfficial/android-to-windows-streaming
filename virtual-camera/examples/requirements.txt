@@ -1,0 +1,16 @@
+# Python dependencies for virtual camera and microphone examples
+
+# For camera examples
+opencv-python>=4.5.0
+numpy>=1.20.0
+
+# For microphone examples
+pyaudio>=0.2.11
+sounddevice>=0.4.0
+
+# Optional: for text-to-speech example
+pyttsx3>=2.90
+
+# Optional: for advanced audio processing
+scipy>=1.7.0
+

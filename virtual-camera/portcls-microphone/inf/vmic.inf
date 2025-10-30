@@ -1,0 +1,85 @@
+;
+; Virtual Microphone Driver INF File
+; Copyright (c) 2025
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=MEDIA
+ClassGuid={4d36e96c-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+CatalogFile=vmic.cat
+DriverVer=01/01/2025,1.0.0.0
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+vmic.sys = 1,,
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64.10.0...22000
+
+[Standard.NTamd64.10.0...22000]
+%VMic.DeviceDesc%=VMic_Device, Root\VirtualMicrophone
+
+[VMic_Device.NT]
+Include=ks.inf,wdmaudio.inf
+Needs=KS.Registration,WDMAUDIO.Registration
+CopyFiles=VMic_Device_CopyFiles
+
+[VMic_Device_CopyFiles]
+vmic.sys
+
+[VMic_Device.NT.Services]
+AddService=VMic,%SPSVCINST_ASSOCSERVICE%,VMic_Service_Inst
+
+[VMic_Service_Inst]
+DisplayName=%VMic.ServiceDesc%
+ServiceType=1               ; SERVICE_KERNEL_DRIVER
+StartType=3                 ; SERVICE_DEMAND_START
+ErrorControl=1              ; SERVICE_ERROR_NORMAL
+ServiceBinary=%13%\vmic.sys
+
+[VMic_Device.NT.Interfaces]
+AddInterface=%KSCATEGORY_AUDIO%,GLOBAL,VMicInterface
+AddInterface=%KSCATEGORY_RENDER%,GLOBAL,VMicRenderInterface
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,VMicCaptureInterface
+
+[VMicInterface]
+AddReg=VMicInterface.AddReg
+
+[VMicInterface.AddReg]
+HKR,,FriendlyName,,%VMic.DeviceDesc%
+
+[VMicRenderInterface]
+AddReg=VMicRenderInterface.AddReg
+
+[VMicRenderInterface.AddReg]
+HKR,,FriendlyName,,%VMic.Render.DeviceDesc%
+HKR,,CLSID,,%Proxy.CLSID%
+
+[VMicCaptureInterface]
+AddReg=VMicCaptureInterface.AddReg
+
+[VMicCaptureInterface.AddReg]
+HKR,,FriendlyName,,%VMic.Capture.DeviceDesc%
+HKR,,CLSID,,%Proxy.CLSID%
+
+[Strings]
+SPSVCINST_ASSOCSERVICE=0x00000002
+ManufacturerName="Virtual Device Manufacturer"
+DiskName="Virtual Microphone Installation Disk"
+VMic.DeviceDesc="Virtual Microphone Device"
+VMic.Render.DeviceDesc="Virtual Microphone Input"
+VMic.Capture.DeviceDesc="Virtual Microphone"
+VMic.ServiceDesc="Virtual Microphone Driver Service"
+KSCATEGORY_AUDIO="{6994AD04-93EF-11D0-A3CC-00A0C9223196}"
+KSCATEGORY_RENDER="{65E8773E-8F56-11D0-A3B9-00A0C9223196}"
+KSCATEGORY_CAPTURE="{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+Proxy.CLSID="{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+
