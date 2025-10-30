@@ -65,18 +65,40 @@ class VideoDecoder:
             pass
 
 class AudioDecoder:
-    def __init__(self):
+    def __init__(self, virtual_microphone=None):
         self.codec = av.CodecContext.create('aac', 'r')
         
-        # Audio parameters - will be confirmed from extradata
-        self.sample_rate = 44100
+        # Audio parameters
+        self.sample_rate = 48000
         self.channels = 2
-        
-        self.audio = pyaudio.PyAudio()
-        self.stream: Optional[pyaudio.Stream] = None
         self.codec_opened = False
         
+        # Virtual Microphone
+        self.virtual_microphone = virtual_microphone
+        self.use_virtual_mic = False
+        
+        # Fallback: PyAudio stream
+        self.audio = None
+        self.stream: Optional[pyaudio.Stream] = None
+        
+        if self.virtual_microphone:
+            try:
+                if self.virtual_microphone.open():
+                    self.use_virtual_mic = True
+                    logger.info("✓ Audio decoder متصل به VirtuCore Microphone")
+                else:
+                    logger.warning("استفاده از PyAudio به عنوان fallback")
+                    self._init_pyaudio()
+            except Exception as e:
+                logger.error(f"خطا در اتصال به VirtuCore Microphone: {e}")
+                self._init_pyaudio()
+        else:
+            self._init_pyaudio()
+    
+    def _init_pyaudio(self):
+        """راه‌اندازی PyAudio به عنوان fallback"""
         try:
+            self.audio = pyaudio.PyAudio()
             self.stream = self.audio.open(
                 format=pyaudio.paInt16,
                 channels=self.channels,
@@ -84,7 +106,7 @@ class AudioDecoder:
                 output=True,
                 frames_per_buffer=1024
             )
-            logger.info(f"Audio decoder initialized: {self.sample_rate}Hz, {self.channels} channels")
+            logger.info(f"Audio decoder با PyAudio: {self.sample_rate}Hz, {self.channels} channels")
         except Exception as e:
             logger.error(f"Failed to initialize audio output: {e}")
     
@@ -121,28 +143,31 @@ class AudioDecoder:
             self.sample_rate = sample_rate
             self.channels = channels
             
-            # Recreate the audio stream with correct parameters
-            if self.stream:
-                self.stream.stop_stream()
-                self.stream.close()
+            # Recreate the audio stream if using PyAudio
+            if not self.use_virtual_mic and self.audio:
+                if self.stream:
+                    self.stream.stop_stream()
+                    self.stream.close()
+                
+                self.stream = self.audio.open(
+                    format=pyaudio.paInt16,
+                    channels=self.channels,
+                    rate=self.sample_rate,
+                    output=True,
+                    frames_per_buffer=1024
+                )
             
-            self.stream = self.audio.open(
-                format=pyaudio.paInt16,
-                channels=self.channels,
-                rate=self.sample_rate,
-                output=True,
-                frames_per_buffer=1024
-            )
             logger.info(f"Audio codec configured: {self.sample_rate}Hz, {self.channels} channels")
         except Exception as e:
             logger.error(f"Failed to set audio codec config: {e}", exc_info=True)
     
     def decode(self, data: bytes, timestamp: int):
-        if not self.stream:
-            return
-        
         if not self.codec_opened:
             logger.warning("Audio codec not yet configured, skipping frame")
+            return
+        
+        # بررسی اینکه آیا output در دسترس است
+        if not self.use_virtual_mic and not self.stream:
             return
         
         try:
@@ -151,7 +176,6 @@ class AudioDecoder:
             
             for frame in frames:
                 # Convert audio to numpy array
-                # The to_ndarray() method returns the data in the frame's native format
                 audio_array = frame.to_ndarray()
                 
                 # Ensure the shape is correct (channels, samples) -> (samples * channels,)
@@ -160,23 +184,43 @@ class AudioDecoder:
                 
                 # Convert to int16 if not already
                 if audio_array.dtype != np.int16:
-                    # If it's float, scale it to int16 range
                     if audio_array.dtype in [np.float32, np.float64]:
                         audio_array = (audio_array * 32767).astype(np.int16)
                     else:
                         audio_array = audio_array.astype(np.int16)
                 
-                audio_bytes = audio_array.tobytes()
-                self.stream.write(audio_bytes)
-                logger.debug(f"Played audio frame: {len(audio_bytes)} bytes")
+                # ارسال به virtual microphone یا PyAudio
+                if self.use_virtual_mic:
+                    self.virtual_microphone.send_audio(audio_array)
+                    logger.debug(f"Sent audio to VirtuCore Mic: {len(audio_array)} samples")
+                elif self.stream:
+                    audio_bytes = audio_array.tobytes()
+                    self.stream.write(audio_bytes)
+                    logger.debug(f"Played audio frame: {len(audio_bytes)} bytes")
+                    
         except Exception as e:
             logger.error(f"Error decoding audio frame: {e}", exc_info=True)
     
     def close(self):
+        if self.virtual_microphone:
+            try:
+                self.virtual_microphone.close()
+            except:
+                pass
+        
         if self.stream:
-            self.stream.stop_stream()
-            self.stream.close()
-        self.audio.terminate()
+            try:
+                self.stream.stop_stream()
+                self.stream.close()
+            except:
+                pass
+        
+        if self.audio:
+            try:
+                self.audio.terminate()
+            except:
+                pass
+        
         try:
             self.codec.close()
         except:

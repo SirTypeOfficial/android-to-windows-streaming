@@ -1,105 +1,82 @@
 import logging
-import pyaudio
-from .obs_controller import OBSController
-from .audio_setup import VirtualAudioSetup
 
 logger = logging.getLogger(__name__)
 
 class VirtualDeviceManager:
     def __init__(self):
-        self.audio_interface = None
-        self.virtual_audio_output = None
-        self.obs_controller = OBSController()
-        self.audio_setup = VirtualAudioSetup()
+        self.camera = None
+        self.microphone = None
         
-    def setup_obs_virtual_camera(self) -> bool:
-        # بررسی نصب OBS
-        if not self.obs_controller.is_obs_installed():
-            logger.error("❌ OBS Studio نصب نیست")
-            logger.info(self.obs_controller.get_setup_instructions())
-            return False
-        
-        # بررسی Virtual Camera
-        if self.obs_controller.check_virtual_camera_status():
-            logger.info("✓ Virtual Camera آماده است")
-            return True
-        
-        # راهنمای فعال‌سازی
-        logger.warning("Virtual Camera فعال نیست")
-        logger.info(self.obs_controller.get_setup_instructions())
-        
-        # تلاش برای راه‌اندازی خودکار OBS
-        logger.info("تلاش برای راه‌اندازی خودکار OBS...")
-        if self.obs_controller.start_obs_minimized():
-            logger.info("✓ OBS راه‌اندازی شد")
-            logger.warning("لطفاً در OBS از منوی Tools گزینه Start Virtual Camera را انتخاب کنید")
-            return True
-        
-        return False
-    
-    def setup_virtual_audio(self) -> bool:
+    def setup_virtucore_drivers(self) -> bool:
+        """بررسی نصب درایورهای VirtuCore"""
         try:
-            self.audio_interface = pyaudio.PyAudio()
+            from .virtucore_camera import VirtuCoreCamera
+            from .virtucore_microphone import VirtuCoreMicrophone
             
-            # بررسی Virtual Audio
-            if self.audio_setup.is_virtual_audio_installed():
-                logger.info("✓ Virtual Audio Device یافت شد")
-                self._setup_audio_output()
-                return True
+            camera = VirtuCoreCamera()
+            mic = VirtuCoreMicrophone()
             
-            # راهنمای نصب
-            logger.warning("Virtual Audio Device یافت نشد")
-            logger.info(self.audio_setup.get_manual_install_instructions())
+            camera_ok = camera.check_driver_installed()
+            mic_ok = mic.check_driver_installed()
             
-            # استفاده از صدای پیش‌فرض
-            logger.info("استفاده از دستگاه صدای پیش‌فرض سیستم")
-            self._setup_audio_output()
+            if not camera_ok:
+                logger.error("❌ درایور دوربین VirtuCore نصب نیست")
+                logger.info(self._get_driver_install_instructions())
+                return False
+            
+            if not mic_ok:
+                logger.warning("⚠ درایور میکروفون VirtuCore نصب نیست")
+            
+            logger.info("✓ درایورهای VirtuCore آماده هستند")
             return True
             
+        except ImportError as e:
+            logger.error(f"خطا در import ماژول‌های VirtuCore: {e}")
+            return False
         except Exception as e:
-            logger.error(f"خطای audio: {e}")
+            logger.error(f"خطا در بررسی درایورها: {e}")
             return False
     
-    def _setup_audio_output(self):
-        """راه‌اندازی خروجی صدا"""
-        try:
-            default_output = self.audio_interface.get_default_output_device_info()
-            
-            self.virtual_audio_output = self.audio_interface.open(
-                format=pyaudio.paInt16,
-                channels=2,
-                rate=48000,
-                output=True,
-                output_device_index=default_output['index'],
-                frames_per_buffer=1024
-            )
-            
-            logger.info(f"خروجی صدا: {default_output['name']}")
-        except Exception as e:
-            logger.warning(f"خطا در راه‌اندازی صدا: {e}")
-    
-    def play_audio(self, audio_data: bytes):
-        """پخش داده صوتی"""
-        if self.virtual_audio_output and audio_data:
-            try:
-                self.virtual_audio_output.write(audio_data)
-            except:
-                pass
+    def _get_driver_install_instructions(self) -> str:
+        """راهنمای نصب درایورها"""
+        return """
+╔════════════════════════════════════════════════════════╗
+║         نصب درایورهای VirtuCore                      ║
+╚════════════════════════════════════════════════════════╝
+
+مراحل نصب:
+1. فعال‌سازی Test Signing (در PowerShell با Admin):
+   bcdedit /set testsigning on
+   
+2. Restart سیستم
+
+3. نصب درایور دوربین:
+   cd virtual-camera\\avstream-camera
+   install.bat (با Admin)
+
+4. نصب درایور میکروفون:
+   cd virtual-camera\\portcls-microphone
+   install.bat (با Admin)
+
+5. اجرای مجدد این برنامه
+
+برای اطلاعات بیشتر:
+virtual-camera\\BUILD_INSTRUCTIONS.md
+"""
     
     def cleanup(self):
-        if self.virtual_audio_output:
+        """پاکسازی منابع"""
+        if self.camera:
             try:
-                self.virtual_audio_output.stop_stream()
-                self.virtual_audio_output.close()
+                self.camera.close()
             except:
                 pass
         
-        if self.audio_interface:
+        if self.microphone:
             try:
-                self.audio_interface.terminate()
+                self.microphone.close()
             except:
                 pass
         
-        self.audio_setup.cleanup()
         logger.info("✓ پاکسازی کامل شد")
 

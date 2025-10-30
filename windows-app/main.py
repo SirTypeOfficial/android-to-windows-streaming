@@ -17,22 +17,21 @@ logger = logging.getLogger(__name__)
 
 def main():
     logger.info("=" * 50)
-    logger.info("Android Stream Receiver")
+    logger.info("Android Stream Receiver با VirtuCore")
     logger.info("=" * 50)
     
     device_manager = VirtualDeviceManager()
     
-    # راه‌اندازی virtual camera
-    camera_ok = device_manager.setup_obs_virtual_camera()
+    # بررسی نصب درایورهای VirtuCore
+    drivers_ok = device_manager.setup_virtucore_drivers()
     
-    # راه‌اندازی virtual audio
-    audio_ok = device_manager.setup_virtual_audio()
-    
-    if not camera_ok:
-        logger.warning("⚠ Virtual camera در دسترس نیست")
+    if not drivers_ok:
+        logger.error("برنامه بدون درایورهای VirtuCore قابل اجرا نیست")
+        input("\nEnter را بزنید برای خروج...")
+        sys.exit(1)
     
     app = QApplication(sys.argv)
-    app.setApplicationName("Android Stream Receiver")
+    app.setApplicationName("Android Stream Receiver - VirtuCore")
     
     window = MainWindow()
     window.device_manager = device_manager

@@ -12,6 +12,7 @@ from streaming.receiver import StreamReceiver
 from streaming.decoder import VideoDecoder, AudioDecoder
 from control.commands import ControlCommands
 from virtual_camera.interface import VirtualCameraInterface
+from virtual_camera.virtucore_microphone import VirtuCoreMicrophone
 
 logger = logging.getLogger(__name__)
 
@@ -20,13 +21,17 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Android Stream Receiver - Professional Camera Control")
+        self.setWindowTitle("Android Stream Receiver - VirtuCore Integration")
         self.setGeometry(100, 100, 1400, 900)
         
         self.connection_manager = ConnectionManager()
         self.stream_receiver = StreamReceiver(self.connection_manager)
         self.video_decoder = VideoDecoder()
-        self.audio_decoder = AudioDecoder()
+        
+        # Initialize Virtual Microphone and pass to AudioDecoder
+        self.virtual_microphone = VirtuCoreMicrophone()
+        self.audio_decoder = AudioDecoder(virtual_microphone=self.virtual_microphone)
+        
         self.control_commands = ControlCommands(self.connection_manager)
         self.virtual_camera = VirtualCameraInterface()
         self.device_manager = None
@@ -563,6 +568,9 @@ class MainWindow(QMainWindow):
         self.virtual_camera.stop()
         self.video_decoder.close()
         self.audio_decoder.close()
+        
+        if self.virtual_microphone:
+            self.virtual_microphone.close()
         
         if self.device_manager:
             self.device_manager.cleanup()
