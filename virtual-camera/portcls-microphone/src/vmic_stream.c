@@ -283,7 +283,7 @@ NTSTATUS NTAPI VMicStreamSetState(
 
     stream->Context.State = State;
 
-    return VMicStreamSetState(&stream->Context, State);
+    return STATUS_SUCCESS;
 }
 
 NTSTATUS NTAPI VMicStreamSetFormat(

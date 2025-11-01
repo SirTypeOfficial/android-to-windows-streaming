@@ -39,27 +39,8 @@ NTSTATUS VMicAddDevice(
 )
 {
     NTSTATUS status;
-    PVMIC_ADAPTER_CONTEXT adapterContext;
-    PUNKNOWN unknown;
-    PADAPTERCOMMON adapterCommon;
 
     KdPrint(("VMic: AddDevice called\n"));
-
-    // Allocate adapter context
-    adapterContext = (PVMIC_ADAPTER_CONTEXT)ExAllocatePoolWithTag(
-        NonPagedPool,
-        sizeof(VMIC_ADAPTER_CONTEXT),
-        VMIC_POOL_TAG
-    );
-
-    if (adapterContext == NULL) {
-        KdPrint(("VMic: Failed to allocate adapter context\n"));
-        return STATUS_INSUFFICIENT_RESOURCES;
-    }
-
-    RtlZeroMemory(adapterContext, sizeof(VMIC_ADAPTER_CONTEXT));
-    adapterContext->PhysicalDeviceObject = PhysicalDeviceObject;
-    adapterContext->PoweredUp = TRUE;
 
     // Add device
     status = PcAddAdapterDevice(
@@ -72,7 +53,6 @@ NTSTATUS VMicAddDevice(
 
     if (!NT_SUCCESS(status)) {
         KdPrint(("VMic: PcAddAdapterDevice failed: 0x%08X\n", status));
-        ExFreePoolWithTag(adapterContext, VMIC_POOL_TAG);
         return status;
     }
 

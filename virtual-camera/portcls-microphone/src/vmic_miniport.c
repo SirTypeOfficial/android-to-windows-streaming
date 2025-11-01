@@ -214,6 +214,7 @@ NTSTATUS NTAPI VMicMiniportNewStream(
 {
     PVMIC_MINIPORT miniport = (PVMIC_MINIPORT)This;
     PVMIC_STREAM_CONTEXT streamContext;
+    PVMIC_STREAM stream;
     NTSTATUS status;
 
     KdPrint(("VMic: MiniportNewStream called (Pin=%d, Capture=%d)\n", Pin, Capture));
@@ -246,7 +247,8 @@ NTSTATUS NTAPI VMicMiniportNewStream(
         miniport->Context->RenderStream = streamContext;
     }
 
-    *Stream = (PMINIPORTWAVERTSTREAM)streamContext;
+    stream = CONTAINING_RECORD(streamContext, VMIC_STREAM, Context);
+    *Stream = (PMINIPORTWAVERTSTREAM)stream;
 
     KdPrint(("VMic: Stream created successfully\n"));
     return STATUS_SUCCESS;
