@@ -73,6 +73,7 @@ NTSTATUS VCamPinSetDeviceState(
 )
 {
     PVCAM_PIN_CONTEXT pinContext;
+    PVCAM_DEVICE_EXTENSION deviceExtension;
 
     KdPrint(("VCam: PinSetDeviceState from %d to %d\n", FromState, ToState));
 
@@ -81,16 +82,32 @@ NTSTATUS VCamPinSetDeviceState(
         return STATUS_INVALID_PARAMETER;
     }
 
+    // Get device extension to update streaming state
+    deviceExtension = (PVCAM_DEVICE_EXTENSION)KsPinGetDevice(Pin)->Context;
+
     // Handle state transitions
     if (ToState == KSSTATE_RUN && FromState != KSSTATE_RUN) {
         // Starting streaming
         KdPrint(("VCam: Starting streaming\n"));
         pinContext->FrameNumber = 0;
         KeQuerySystemTime(&pinContext->StartTime);
+        
+        // Update device extension state
+        if (deviceExtension != NULL) {
+            deviceExtension->IsStreaming = TRUE;
+            deviceExtension->CurrentWidth = pinContext->Width;
+            deviceExtension->CurrentHeight = pinContext->Height;
+            deviceExtension->FramesDelivered = 0;
+        }
     }
     else if (FromState == KSSTATE_RUN && ToState != KSSTATE_RUN) {
         // Stopping streaming
         KdPrint(("VCam: Stopping streaming\n"));
+        
+        // Update device extension state
+        if (deviceExtension != NULL) {
+            deviceExtension->IsStreaming = FALSE;
+        }
     }
 
     pinContext->PreviousState = FromState;
@@ -136,7 +153,9 @@ NTSTATUS VCamPinProcess(
         return STATUS_INVALID_PARAMETER;
     }
 
-    deviceExtension = (PVCAM_DEVICE_EXTENSION)Pin->Context;
+    // Get device extension from KS device (NOT from Pin->Context!)
+    // Pin->Context contains PVCAM_PIN_CONTEXT, not PVCAM_DEVICE_EXTENSION
+    deviceExtension = (PVCAM_DEVICE_EXTENSION)KsPinGetDevice(Pin)->Context;
     if (deviceExtension == NULL) {
         return STATUS_INVALID_PARAMETER;
     }
@@ -178,6 +197,11 @@ NTSTATUS VCamPinProcess(
 
     // Advance frame number
     pinContext->FrameNumber++;
+    
+    // Increment frames delivered counter
+    if (deviceExtension != NULL) {
+        deviceExtension->FramesDelivered++;
+    }
 
     // Delete and unlock stream pointer
     KsStreamPointerDelete(streamPointer);

@@ -78,6 +78,12 @@ NTSTATUS VCamDeviceAdd(
     deviceExtension->CurrentWriteIndex = 0;
     deviceExtension->CurrentReadIndex = 0;
     deviceExtension->TotalFramesReceived = 0;
+    // Initialize streaming state
+    deviceExtension->IsStreaming = FALSE;
+    deviceExtension->CurrentWidth = VCAM_DEFAULT_WIDTH;
+    deviceExtension->CurrentHeight = VCAM_DEFAULT_HEIGHT;
+    deviceExtension->CurrentFormat = 0; // RGB24
+    deviceExtension->FramesDelivered = 0;
 
     // Allocate frame buffers
     status = VCamAllocateFrameBuffers(deviceExtension);

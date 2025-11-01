@@ -84,6 +84,12 @@ typedef struct _VCAM_DEVICE_EXTENSION {
     ULONG CurrentWriteIndex;
     ULONG CurrentReadIndex;
     ULONG TotalFramesReceived;
+    // Streaming state tracking
+    BOOLEAN IsStreaming;
+    ULONG CurrentWidth;
+    ULONG CurrentHeight;
+    ULONG CurrentFormat;
+    ULONG FramesDelivered;
 } VCAM_DEVICE_EXTENSION, *PVCAM_DEVICE_EXTENSION;
 
 // Pin context

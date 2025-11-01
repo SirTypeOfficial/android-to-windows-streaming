@@ -128,6 +128,7 @@ NTSTATUS VCamHandleGetStatus(
 {
     PVCAM_DEVICE_EXTENSION deviceExtension;
     PVCAM_STATUS status;
+    KIRQL oldIrql;
 
     KdPrint(("VCam: HandleGetStatus called\n"));
 
@@ -145,16 +146,23 @@ NTSTATUS VCamHandleGetStatus(
     status = (PVCAM_STATUS)OutputBuffer;
     RtlZeroMemory(status, sizeof(VCAM_STATUS));
 
-    // Fill status information
-    status->IsStreaming = TRUE; // Simplified - should check actual state
-    status->CurrentWidth = VCAM_DEFAULT_WIDTH;
-    status->CurrentHeight = VCAM_DEFAULT_HEIGHT;
-    status->CurrentFormat = 0; // RGB24
-    status->FramesDelivered = deviceExtension->TotalFramesReceived;
+    // Acquire lock to read device state consistently
+    KeAcquireSpinLock(&deviceExtension->BufferLock, &oldIrql);
+
+    // Fill status information from actual device state (not hardcoded!)
+    status->IsStreaming = deviceExtension->IsStreaming;
+    status->CurrentWidth = deviceExtension->CurrentWidth;
+    status->CurrentHeight = deviceExtension->CurrentHeight;
+    status->CurrentFormat = deviceExtension->CurrentFormat;
+    status->FramesDelivered = deviceExtension->FramesDelivered;
+
+    KeReleaseSpinLock(&deviceExtension->BufferLock, oldIrql);
 
     *Information = sizeof(VCAM_STATUS);
 
-    KdPrint(("VCam: Status retrieved successfully\n"));
+    KdPrint(("VCam: Status retrieved successfully - Streaming=%d, Resolution=%dx%d, Format=%d, Frames=%d\n",
+             status->IsStreaming, status->CurrentWidth, status->CurrentHeight, 
+             status->CurrentFormat, status->FramesDelivered));
     return STATUS_SUCCESS;
 }
 
@@ -283,9 +291,19 @@ NTSTATUS VCamGetFrame(
 {
     KIRQL oldIrql;
     ULONG readIndex;
+    ULONG searchIndex;
+    ULONG attemptCount;
+    BOOLEAN foundValid;
 
     // Acquire spin lock
     KeAcquireSpinLock(&DeviceExtension->BufferLock, &oldIrql);
+
+    // Check if any frames have been received at all
+    if (DeviceExtension->TotalFramesReceived == 0) {
+        KeReleaseSpinLock(&DeviceExtension->BufferLock, oldIrql);
+        *FrameBuffer = NULL;
+        return STATUS_NO_DATA_DETECTED;
+    }
 
     // Calculate read index (one behind write index for most recent frame)
     if (DeviceExtension->CurrentWriteIndex == 0) {
@@ -295,12 +313,39 @@ NTSTATUS VCamGetFrame(
         readIndex = DeviceExtension->CurrentWriteIndex - 1;
     }
 
+    // Search for a valid frame, starting from the most recent
+    foundValid = FALSE;
+    searchIndex = readIndex;
+    attemptCount = 0;
+
+    while (attemptCount < VCAM_FRAME_BUFFER_COUNT) {
+        if (DeviceExtension->FrameBuffers[searchIndex].Valid) {
+            readIndex = searchIndex;
+            foundValid = TRUE;
+            break;
+        }
+        
+        // Move to previous buffer
+        if (searchIndex == 0) {
+            searchIndex = VCAM_FRAME_BUFFER_COUNT - 1;
+        }
+        else {
+            searchIndex--;
+        }
+        attemptCount++;
+    }
+
     // Get frame buffer
-    *FrameBuffer = &DeviceExtension->FrameBuffers[readIndex];
-
-    // Release spin lock
-    KeReleaseSpinLock(&DeviceExtension->BufferLock, oldIrql);
-
-    return STATUS_SUCCESS;
+    if (foundValid) {
+        *FrameBuffer = &DeviceExtension->FrameBuffers[readIndex];
+        KeReleaseSpinLock(&DeviceExtension->BufferLock, oldIrql);
+        return STATUS_SUCCESS;
+    }
+    else {
+        // No valid frames found
+        *FrameBuffer = NULL;
+        KeReleaseSpinLock(&DeviceExtension->BufferLock, oldIrql);
+        return STATUS_NO_DATA_DETECTED;
+    }
 }
 
